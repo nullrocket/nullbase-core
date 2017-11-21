@@ -1,0 +1,1 @@
+export { default } from 'nullbase-core/components/nullbase-theme-initializer';
