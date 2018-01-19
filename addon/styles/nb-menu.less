@@ -1,0 +1,236 @@
+.transition (@prop: all, @time: 1s, @ease: linear) {
+
+  transition: @prop @time @ease;
+}
+
+.nb-menu-backdrop {
+
+  background: rgba(0, 0, 0, 0);
+  z-index: 500;
+  opacity: 0;
+  transition: opacity 100ms cubic-bezier(0, 0, 0.2, 1);
+  will-change: opacity;
+  overflow: auto;
+
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: block;
+
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  top: 0px;
+  pointer-events: none;
+  &.show {
+    transition: opacity 100ms cubic-bezier(0, 0, 0.3, 1);
+    opacity: 1;
+    will-change: opacity;
+
+  }
+
+}
+
+.nb-menu {
+  display: block;
+  padding-bottom: 0px;
+  width: auto;
+  min-width: 200px;
+  max-width: 700px;
+  flex-direction: column;
+  /* height: 500px; */
+  width: 300px;
+  border-radius: 2px;
+  z-index: 10000;
+  top: 0px;
+  background: white;
+  align-items:center;
+  /*transform: translate3d(0, 0, 0);*/
+  /* transition: opacity 25ms cubic-bezier(0, 0, 0.2, 1);*/
+
+  opacity: 0;
+  will-change: transform, scale, opacity, box-shadow;
+
+
+  transform: scale(0, 0);
+  &.expand-left {
+    transform-origin: left top;
+  }
+  &.expand-right {
+    transform-origin: right top;
+  }
+  &.pre-show {
+    transform: scale(1, 1);
+    transition: none;
+  }
+  &.anims {
+    .transition (transform, 200ms, cubic-bezier(0.19, 1, 0.22, 1));
+  }
+  &.show {
+    /* transition: opacity 25ms cubic-bezier(0, 0, 0.2, 1);
+     opacity: 1;*/
+    opacity: 1;
+    will-change: transform, scale, opacity, box-shadow;
+
+    transform: scale(1, 1);
+
+    .item {
+
+      transition-property: transform, opacity;
+      transition-duration: 200ms;
+      transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+      transform: translate3d(0, 0, 0);
+      opacity: 1;
+
+    }
+
+  }
+  .nb-menu-item-divider {
+    height: 1px;
+    margin: 8px 0;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.12);
+  }
+  .item {
+    opacity: 0;
+    transform: translate3d(0, -10px, 0);
+    transition-property: transform, opacity;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+  .nb-menu-item ,.nb-menu-header {
+
+    height: 42px;
+    min-width: 240px;
+    display: flex;
+    overflow: hidden !important;
+    position: relative;
+    line-height: 42px;
+    padding-left: 24px;
+    cursor: pointer;
+
+    &.disabled {
+
+      opacity: .3;
+      &.hover {
+        background: transparent;
+        color: rgba(0, 0, 0, .95);
+        background: transparent;
+
+      }
+    }
+
+    &.divider {
+      height: 1px;
+      margin: 8px 0;
+      overflow: hidden;
+      background-color: rgba(0, 0, 0, .12);
+    }
+    .icon {
+      flex-basis: 42px;
+      background-position: left center;
+      background-size: 24px 24px;
+      height: 42px;
+      position: relative;
+      flex-shrink: 0;
+      flex-grow: 0;
+    }
+    &.show {
+      &.hover {
+        transition: none;
+      }
+    }
+    &.hover {
+      background: rgba(0, 0, 0, 0.3);
+      outline: none;
+      border: 0px;
+      transition: background 200ms ease 0s;
+
+      color: #fff;
+
+      .shortcut {
+        color: #fff;
+      }
+    }
+    &.dropdown-row {
+      padding: 5px;
+      padding-left: 20px;
+      padding-right: 20px;
+      .item {
+        height: 32px;
+        display: block;
+      }
+
+    }
+    &:focus {
+      background: rgba(0, 0, 0, 0.3);
+      outline: none;
+      color:white;
+      &:active {
+        outline: none;
+      }
+      &:hover {
+        outline: none;
+      }
+      &.hover {
+        background: rgba(0, 0, 0, 0.3);
+      }
+    }
+    .text {
+      display: inline-block;
+      line-height: 32px;
+      height: 32px;
+      vertical-align: middle;
+      max-width: 210px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .shortcut {
+      vertical-align: middle;
+      display: inline-block;
+      height: 32px;
+      padding: 0px;
+      color: #00000091;
+      font-family: monospace;
+      line-height: 32px;
+      overflow: hidden;
+      position: absolute;
+      right: 24px;
+      top: 4px;
+      font-weight: bold;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+    &.header {
+      &:focus {
+        background: transparent;
+      }
+    }
+
+    &:first-of-type {
+      margin-top: 16px;
+    }
+    &:last-of-type {
+      margin-bottom: 16px;
+    }
+
+  }
+
+}
+
+@lengtOfListElements: 20;
+// loop to increase transitiion-delay for list elements
+.loop(@counter) when (@counter > 0) {
+  .loop((@counter - 1));
+
+  .show .item:nth-child(@{counter}) {
+    transition-delay: 20ms * @counter;
+    &.hover {
+      transition-delay: 0ms;
+      transition: none;
+    }
+  }
+}
+
+.loop(@lengtOfListElements);

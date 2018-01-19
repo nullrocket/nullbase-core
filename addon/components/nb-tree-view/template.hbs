@@ -1,0 +1,11 @@
+
+{{#if hasBlock}}
+{{yield}}
+
+{{else}}
+    {{#each treeViewItems key="@index" as | treeViewItem|}}
+
+        {{component treeViewItemComponent value=treeViewItem.value display=treeViewItem.display selected=treeViewItem.selected onSelecttreeViewItem=(action "onSelectTreeItem" treeViewItem.value) }}
+    {{/each}}
+
+{{/if}}

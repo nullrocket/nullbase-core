@@ -104,6 +104,7 @@
  */
 import eventFactory from './eventFactory';
 import PointerMap from './pointermap';
+import is from "../../util/is";
 
 // var eventFactory = window.__PolymerGestures__.eventFactory;
 var pointermap = new PointerMap();
@@ -208,7 +209,22 @@ var track = {
         var d = this.calcPositionDelta(p.downEvent, inEvent);
         var move = d.x * d.x + d.y * d.y;
         // start tracking only if finger moves more than WIGGLE_THRESHOLD
-        if ( move > this.WIGGLE_THRESHOLD ) {
+        let _threshHold = this.WIGGLE_THRESHOLD;
+        let threshHold = 4;
+       try{
+           _threshHold = parseInt(inEvent.currentTarget.dataset.wiggle);
+          if(!isNaN(_threshHold))
+          {
+          threshHold = _threshHold;
+          }
+
+        }
+        catch(e){
+
+        }
+
+        if ( move > threshHold ) {
+
           p.tracking = true;
           p.lastMoveEvent = p.downEvent;
 

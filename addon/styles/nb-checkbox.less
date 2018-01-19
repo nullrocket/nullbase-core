@@ -17,7 +17,7 @@
   &.no-label {
     width:48px;
   }
-  &:focus {
+  &.focus {
     .inner {
       background: rgba(0, 0, 0, 0.05);
     }
@@ -59,8 +59,6 @@
       border-radius: 100%;
       overflow: hidden;
 
-      will-change: box-shadow;
-      transition: box-shadow 75ms ease-in;
       backface-visibility: hidden;
       -webkit-transform: translate3d(0px, 0px, 0px);
       transform: translate3d(0px, 0px, 0px);
@@ -69,7 +67,7 @@
         display: block;
         pointer-events:none;
         border-radius: 100%;
-        transform: scale(0);
+
         will-change: transform;
         transform: scale(0);
         width:48px;
@@ -115,7 +113,7 @@
     width: 100%;
     line-height: 24px;
     position: relative;
-    vertical-align: top;
+
     margin-top: 12px;
     padding-left: 48px;
 
@@ -167,7 +165,7 @@
 
   }
   100% {
-    transform: scale(1.5);
+    transform: scale(2.5);
 
     opacity: 1;
   }
@@ -179,7 +177,7 @@
 
   }
   100% {
-    transform: scale(1.5);
+    transform: scale(2.5);
     opacity: .7;
   }
 }

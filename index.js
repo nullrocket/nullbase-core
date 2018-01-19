@@ -7,7 +7,8 @@ var fse = require('fs-extra');
 var currentFingerprint = '';
 var reload = require('require-reload')(require);
 var _ = require('lodash');
-
+const Funnel = require('broccoli-funnel');
+const mergeTrees = require('broccoli-merge-trees');
 
 var walk = function ( dir, done ) {
   var results = [];
@@ -40,12 +41,26 @@ module.exports = {
     this._super.init && this._super.init.apply(this, arguments);
     selfx = this;
   },
+
+  options: {
+    nodeAssets: {
+      'tether': {
+        srcDir: 'dist/js',
+        destDir :'tether',
+        vendor: [ 'tether.js' ]
+
+
+      }
+    }
+  },
+
   included: function ( app ) {
     if ( typeof app.import !== 'function' && app.app ) {
       app = app.app;
     }
-
-    app.import( 'vendor/any-resize-event.js');
+    app.import('vendor/setImmediate.js');
+    app.import('vendor/intersection-observer.js');
+   app.import('vendor/tether/tether.js');
     selfx.app = app;
 
   },

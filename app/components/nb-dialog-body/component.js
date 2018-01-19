@@ -1,0 +1,1 @@
+export { default } from 'nullbase-core/components/nb-dialog-body/component';

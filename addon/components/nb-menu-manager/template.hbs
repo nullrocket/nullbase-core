@@ -1,0 +1,5 @@
+{{#each menus  as |menu|}}
+
+
+    {{component menu.name options=menu.args  actionReceiver=actionReceiver remove=remove  menuID=menu.menuID tether=menu.tether }}
+{{/each}}

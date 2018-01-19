@@ -1,0 +1,5 @@
+{{#each dialogs  as |dialog|}}
+
+
+ {{component dialog.name options=dialog.args  actionReceiver=actionReceiver  dialogID=dialog.dialogID  }}
+{{/each}}

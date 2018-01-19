@@ -1,0 +1,58 @@
+.nb-wrapper {
+
+  display:inline-block;
+  overflow:hidden;
+  position:relative;
+  cursor:pointer;
+  .inkMe {
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative !important;
+  }
+
+  .ink {
+    position: absolute;
+    display: block;
+    border-radius: 100%;
+  z-index:0;
+    will-change: transform;
+    transform: scale(0);
+  }
+
+  .inkDefaultColor {
+    background-color: rgba(0, 0, 0, 0.24);
+  }
+
+  .ink.animate {
+    -webkit-animation: nb-wrapper-ink-animation 400ms cubic-bezier(0.0, 0.0, 0.2, 1);
+    animation: nb-wrapper-ink-animation 400ms cubic-bezier(0.0, 0.0, 0.2, 1);
+    animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards;
+  }
+
+
+}
+
+@-webkit-keyframes nb-wrapper-ink-animation {
+
+  0% {
+    transform: scale(0);
+
+  }
+  100% {
+    transform: scale(2.5);
+
+    opacity: 1;
+  }
+}
+
+@keyframes nb-wrapper-ink-animation {
+  0% {
+    transform: scale(0);
+
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: .7;
+  }
+}

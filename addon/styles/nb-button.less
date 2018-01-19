@@ -1,12 +1,13 @@
 .nb-button:focus::-moz-focus-inner {
   border: 0;
-  outline:0;
+  outline: 0;
 }
+
 .nb-button {
   font-family: Roboto;
   font-weight: normal;
-  position:relative;
-  vertical-align:middle;
+  position: relative;
+  vertical-align: middle;
 
   &.flat-text, &.raised-text {
     cursor: pointer;
@@ -16,15 +17,16 @@
     display: inline-block;
     outline: none;
     overflow: visible;
-    background: transparent;
+    background: rgba(0, 0, 0, 0);
     height: 48px;
     padding: 6px 8px 6px 8px;
     font-size: 14px;
-    font-weight:500;
+    font-weight: 500;
     text-transform: uppercase;
     backface-visibility: hidden;
-    transform: translate3d(0px, 0px, 0px);
-    align-self:flex-start;
+    -webkit-backface-visibility: hidden;
+
+    align-self: flex-start;
 
     .button-text {
       position: relative;
@@ -32,9 +34,10 @@
       vertical-align: middle;
       pointer-events: none;
     }
-    &:focus {
+    &.focus {
       .inner {
         background: rgba(0, 0, 0, 0.05);
+        will-change: background;
       }
     }
 
@@ -48,17 +51,32 @@
       border-radius: 2px;
       overflow: hidden;
       min-width: 72px;
-      will-change: box-shadow;
+      will-change: box-shadow, transition;
       transition: box-shadow 75ms ease-in;
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
-      transform: translate3d(0px, 0px, 0px);
+    .inner-wrap {
 
+
+
+
+
+
+      position: relative;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      overflow: hidden;
+      display: block;
+      padding-left: 8px;
+      padding-right: 8px;
+    }
     }
 
     &.pressed {
       .inner {
-        will-change: box-shadow;
+        will-change: box-shadow, transition;
         transition: box-shadow 75ms ease-in;
 
       }
@@ -66,7 +84,7 @@
 
     &:disabled {
       color: rgba(0, 0, 0, .56);
-      opacity:0.3;
+      opacity: 0.3;
       &.pressed {
         .inner {
           background: transparent;
@@ -101,7 +119,7 @@
       z-index: 1;
 
     }
-    &:focus {
+    &.focus {
       .inner {
         background: rgba(0, 0, 0, 0.05);
       }
@@ -121,13 +139,20 @@
       will-change: box-shadow;
       transition: box-shadow 75ms ease-in;
       backface-visibility: hidden;
-      -webkit-transform: translate3d(0px, 0px, 0px);
-      transform: translate3d(0px, 0px, 0px);
+      -webkit-backface-visibility: hidden;
+      .inner-wrap {
+        position:absolute;left:0;right:0;top:0;bottom:0;overflow:hidden;
+      }
       .button-text {
         display: none;
       }
       .button-icon {
-        width:24px;height:24px;display:block;position:relative;margin:6px;padding:0px;
+        width: 24px;
+        height: 24px;
+        display: block;
+        position: relative;
+        margin: 6px;
+        padding: 0px;
       }
 
     }
@@ -140,7 +165,7 @@
 
     &:disabled {
       color: rgba(0, 0, 0, .56);
-      opacity:0.3;
+      opacity: 0.3;
       &.pressed {
         .inner {
           background: transparent;
@@ -150,7 +175,6 @@
     }
 
   }
-
 
   &.condensed {
     &.flat-icon, &.raised-icon {
@@ -165,12 +189,12 @@
         min-width: 32px;
 
         .button-icon {
-          width:24px;
-          height:24px;
-          display:block;
-          position:relative;
-          margin:4px;
-          padding:0px;
+          width: 24px;
+          height: 24px;
+          display: block;
+          position: relative;
+          margin: 4px;
+          padding: 0px;
         }
 
       }
@@ -180,7 +204,7 @@
 }
 
 .inkMe {
-  box-sizing: border-box;
+
   overflow: hidden;
   position: relative !important;
 }
@@ -189,13 +213,17 @@
   position: absolute;
   display: block;
   border-radius: 100%;
-  transform: scale(0);
-  will-change: transform;
-  transform: scale(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  pointer-events: none;
+  transform: scale3d(0, 0, 0);
+
+  will-change: transform, opacity;
+
 }
 
 .inkColor {
-  background-color: rgba(0, 0, 0, 0.24);
+  background-color: rgba(0, 0, 0, .12);
 }
 
 .ink.animate {
@@ -203,28 +231,30 @@
   animation: nb-button-ink-animation 400ms cubic-bezier(0.0, 0.0, 0.2, 1);
   animation-fill-mode: forwards;
   -webkit-animation-fill-mode: forwards;
+
+  will-change: opacity, transform;
+
 }
 
 @-webkit-keyframes nb-button-ink-animation {
 
   0% {
-    transform: scale(0);
+    transform: scale3d(0, 0, 0);
 
   }
   100% {
-    transform: scale(2.5);
+    transform: scale3d(2.5, 2.5, 2.5);
 
-    opacity: 1;
   }
 }
 
 @keyframes nb-button-ink-animation {
   0% {
-    transform: scale(0);
+    transform: scale3d(0, 0, 0);
 
   }
   100% {
-    transform: scale(2.5);
-    opacity: .7;
+    transform: scale3d(2.5, 2.5, 2.5);
+
   }
 }

@@ -1,0 +1,33 @@
+{{#if icon}}
+    <div class="icon {{icon}}"></div>
+{{/if}}
+<div class="input-wrapper">
+    <div class="input-buttons {{if isMemo "text-area" }}">
+        <div class="input">
+            <div class="hint-text">{{hint}}</div>
+            <div class="label">{{label}}</div>
+            {{#if isMemo}}
+
+                {{textarea type=type value=value  name=inputId class=inputClasses rows=rows spellcheck=false autocomplete="off" readonly=readonly}}
+            {{else}}
+                {{input type=type value=value  name=inputId class=inputClasses spellcheck=false title=title autocomplete="off" autocapitalize="off" autocorrect="off" readonly=readonly }}
+            {{/if}}
+        </div>
+        <div class="buttons">
+            {{#if isMasked }}
+                {{nb-button title=passwordToggleTitle type="flat-icon" icon=(if passwordVisible (build-icon "eye"  "grey") (build-icon  "eye-off" "grey")) on-tap=(action "togglePasswordVisible")   size="condensed"  }}
+
+            {{/if}}
+            {{yield}}
+            {{#if copyButton }}
+                {{nb-button title=copyFieldTitle type="flat-icon" icon= (build-icon "content-copy" "grey") on-tap=(action "copyField")  size="condensed" useNativeClick=true  }}
+
+            {{/if}}
+        </div>
+    </div>
+
+    <div class="bottom-bar"></div>
+    <div class="error">{{errorString}}</div>
+</div>
+
+

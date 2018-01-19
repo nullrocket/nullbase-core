@@ -1,0 +1,29 @@
+{{#if icon}}
+    <div class="icon {{icon}}"></div>
+{{/if}}
+<div class="input-wrapper">
+    <div class="input-buttons {{if isMemo "text-area" }}">
+        <div class="input">
+            <div class="hint-text">{{hint}}</div>
+            <div class="label">{{label}}</div>
+
+            <div class="select-display" tabindex="0">
+                {{value}}
+            </div>
+
+        </div>
+        <div class="buttons">
+            <div class=" nb-button flat-icon condensed">
+                <div class="inner">
+                    <span class="button-icon {{menuIcon}}"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="bottom-bar"></div>
+    <div class="error">{{errorString}}</div>
+</div>
+
+

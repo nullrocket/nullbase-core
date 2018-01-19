@@ -1,6 +1,6 @@
 {
   "name": "nullbase-core",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
     "ember-addon"
@@ -18,14 +18,17 @@
     "test": "ember try:each"
   },
   "dependencies": {
-    "ember-cli-babel": "^6.6.0",
+    "ember-cli-babel": "^6.8.2",
     "ember-cli-htmlbars": "^2.0.1",
-    "ember-cli-less": "^1.5.4"
+    "ember-cli-less": "^1.5.4",
+    "fastboot-transform": "^0.1.0",
+    "tether": "^1.4.3",
+    "ember-cli-node-assets": "^0.2.2",
+    "ember-spread": "^4.0.1"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
     "ember-cli": "~2.17.0-beta.1",
-
     "ember-cli-babili": "^0.2.0",
     "ember-cli-dependency-checker": "^2.0.0",
     "ember-cli-eslint": "^4.2.1",
@@ -41,14 +44,17 @@
     "ember-lodash-es-shim": "^1.0.0",
     "ember-native-dom-event-dispatcher": "^0.6.3",
     "ember-resolver": "^4.0.0",
-    "ember-source": "~2.17.0-beta.2",
+    "ember-source": "2.18.0-beta.3",
+
+    "focus-trap": "^2.4.2",
     "fs-extra": "^0.30.0",
     "jsonfile": "^2.3.1",
     "loader.js": "^4.2.3",
     "lodash-es": "^4.17.4",
     "require-reload": "^0.2.2",
     "resize-observer-polyfill": "^1.4.2",
-    "xxhashjs": "^0.2.1"
+    "xxhashjs": "^0.2.1",
+    "neo-async": "2.1.0"
   },
   "engines": {
     "node": "^4.5 || 6.* || >= 7.*"

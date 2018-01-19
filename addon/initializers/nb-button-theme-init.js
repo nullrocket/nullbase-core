@@ -14,7 +14,7 @@ var ThemeHandler = Ember.Object.extend(ThemeHandlerMixin, {
         Ember.assert('The value of themeProperties must be an object with keys for each button type.', isObject(themeProperties));
         let self = this;
         forIn(themeProperties, function ( color, buttonTypeClass ) {
-          let rule = `.nb-button${selectorForThemeContext}.${buttonTypeClass}:focus .inner { 
+          let rule = `.nb-button${selectorForThemeContext}.${buttonTypeClass}.focus .inner { 
                       background:${color};
                       }`;
           self.insertRule(rule, self);
@@ -22,7 +22,7 @@ var ThemeHandler = Ember.Object.extend(ThemeHandlerMixin, {
       },
 
       setInstanceCSSRule(){
-        this.insertRule('#' + this.get('elementId') + ':focus .inner{ background:' + this.get('attrs.focused-background-color') + ';}', this);
+        this.insertRule('#' + this.get('elementId') + '.focus .inner{ background:' + this.get('attrs.focused-background-color') + ';}', this);
       }
 
     },
@@ -101,7 +101,7 @@ var ThemeHandler = Ember.Object.extend(ThemeHandlerMixin, {
         forIn(themeProperties, function ( color, buttonTypeClass ) {
 
 
-          let rule = `.nb-button${selectorForThemeContext}.${buttonTypeClass}:focus .inner .button-text { 
+          let rule = `.nb-button${selectorForThemeContext}.${buttonTypeClass}.focus .inner .button-text { 
                       color:${color};
                     }`;
           self.insertRule(rule, self);
@@ -110,7 +110,7 @@ var ThemeHandler = Ember.Object.extend(ThemeHandlerMixin, {
       },
       setInstanceCSSRule(){
 
-        let rule = `#${this.get('elementId')}:focus .inner .button-text { 
+        let rule = `#${this.get('elementId')}.focus .inner .button-text { 
                       color:${this.get('attrs.focused-text-color')};
                     }`;
         this.insertRule(rule, this);

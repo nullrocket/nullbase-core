@@ -9,7 +9,7 @@ export default Ember.Mixin.create({
     this._super(...arguments);
     this.insertRule = bind(this.get('themeService').insertRule,this.get('themeService'));
     let self = this;
-    console.log(this.get('themeService').get('themes'));
+
     let themeSettingsForItem = this.get('themeService').get('themes')[ 0 ][ this.get('className') ];
     each(themeSettingsForItem, function ( item ) {
       let selectorForThemeContext = item.context === 'default' ?  '': '.theme-context-'+item.context;

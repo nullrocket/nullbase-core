@@ -1,0 +1,66 @@
+.tab-holder {
+  width: 40%;
+  position: relative;
+  height: 48px;
+}
+.nb-tabs {
+  background: transparent;
+  height: 32px;
+  right: 0px;
+  position: absolute;
+  top: 16px;
+  left: 0;
+  z-index: 50;
+  display: flex;
+  margin-left: 16px;
+  margin-right: 16px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+}
+
+.nb-tabs .slider {
+  background: #4caf50;
+  height: 3px;
+  left: 0px;
+  position: absolute;
+  z-index:1;
+  width: 50%;
+  bottom: 0;
+  -webkit-transition: -webkit-transform .3s;
+  transition: -webkit-transform .3s;
+  transition: transform .3s;
+  transition: transform .3s, -webkit-transform .3s;
+  will-change: transform;
+
+  box-sizing: border-box;
+}
+
+.nb-tabs .slider.second {
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
+}
+
+.nb-tabs .tab {
+  height: 100%;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: green;
+  font-size: 12px;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  font-weight: 300;
+  &:focus {
+    border-bottom: 3px solid rgba(0,0,0,.1);
+  }
+  &.active {
+    font-weight: 400;
+    cursor: default;
+  }
+
+}

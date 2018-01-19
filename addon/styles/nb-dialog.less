@@ -1,0 +1,120 @@
+.nb-modal-dialog-backdrop {
+
+  background: rgba(0, 0, 0, .1);
+  z-index: 500;
+  opacity: 0;
+  transition: opacity 100ms cubic-bezier(0, 0, 0.2, 1);
+  will-change: opacity;
+  overflow: auto;
+
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  top: 0px;
+
+  &.show {
+    transition: opacity 100ms cubic-bezier(0, 0, 0.2, 1);
+    opacity: 1;
+    will-change: opacity;
+
+  }
+  &.size-1 {
+    .nb-modal-dialog {
+      width: 200px;
+    }
+  }
+  &.size-2 {
+    .nb-modal-dialog {
+      width: 300px;
+    }
+  }
+  &.size-3 {
+    .nb-modal-dialog {
+      width: 400px;
+    }
+  }
+  &.size-4 {
+    .nb-modal-dialog {
+      width: 500px;
+    }
+  }
+  &.size-5 {
+    .nb-modal-dialog {
+      width: 600px;
+    }
+  }
+  &.size-6 {
+    .nb-modal-dialog {
+      width: 700px;
+    }
+  }
+
+  .dialog-row {
+    width: auto;
+
+  }
+}
+
+.nb-modal-dialog {
+  background: white;
+  flex-direction: column;
+  display: flex;
+  padding-bottom: 0px;
+  width: auto;
+  min-width: 200px;
+  max-width: 700px;
+
+  flex-direction: column;
+  /* height: 500px;*/
+  width: 500px;
+  z-index: 100;
+  top: 0px;
+  background: white;
+  transform: translate3d(0, 0, 0);
+  transition: opacity 25ms cubic-bezier(0, 0, 0.2, 1);
+  opacity: 0;
+  will-change: transform, scale, opacity, box-shadow;
+  box-shadow: none;
+  &.show {
+
+    transition: opacity 25ms cubic-bezier(0, 0, 0.2, 1);
+    opacity: 1;
+    will-change: transform, scale, opacity, box-shadow;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 4px, rgba(0, 0, 0, 0.431373) 0px 24px 24px
+  }
+  .nb-dialog-header {
+    padding: 24px;
+    padding-bottom: 0px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    font-size: 20px;
+    color: #111;
+  }
+  .nb-dialog-footer {
+
+    text-align: right;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom:8px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    .nb-button.flat-text, .nb-button.raised-text {
+      padding: 0px;
+    }
+
+  }
+  .nb-dialog-body {
+    .inner-wrapper {
+      padding: 24px;
+      padding-top: 20px;
+    }
+  }
+}

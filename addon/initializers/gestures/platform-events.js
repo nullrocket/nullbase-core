@@ -25,17 +25,17 @@ import touchEvents from './touch';
 var nav = window.navigator;
 
 if ( window.PointerEvent ) {
-console.log('pointerevent');
+
   dispatcher.registerSource('pointer', pointerEvents);
 }
 else if ( nav.msPointerEnabled ) {
   dispatcher.registerSource('ms', msEvents);
 }
 else {
-  console.log('mouse');
+
   dispatcher.registerSource('mouse', mouseEvents);
   if ( window.ontouchstart !== undefined ) {
-    console.log('touch');
+
     dispatcher.registerSource('touch', touchEvents);
   }
 }
@@ -46,6 +46,6 @@ var IS_IOS = ua.match(/iPad|iPhone|iPod/) && 'ontouchstart' in window;
 
 dispatcher.IS_IOS = IS_IOS;
 touchEvents.IS_IOS = IS_IOS;
-console.log('importinf platform events');
+
 dispatcher.register(document, true);
 
