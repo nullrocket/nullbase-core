@@ -24,7 +24,8 @@
     "fastboot-transform": "^0.1.0",
     "tether": "^1.4.3",
     "ember-cli-node-assets": "^0.2.2",
-    "ember-spread": "^4.0.1"
+    "ember-spread": "^4.0.1",
+    "xxhashjs": "^0.2.1",
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
@@ -53,7 +54,7 @@
     "lodash-es": "^4.17.4",
     "require-reload": "^0.2.2",
     "resize-observer-polyfill": "^1.4.2",
-    "xxhashjs": "^0.2.1",
+
     "neo-async": "2.1.0"
   },
   "engines": {
