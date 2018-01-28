@@ -49,6 +49,7 @@ export default Ember.Component.extend({
   zooming: false,
   minZoom: 0.5,
   maxZoom: 3,
+  enableDragScrollForNative:true,
   _showVerticalScrollbar:computed('showVerticalScrollbar','contentHeight','height','useNativeScroll',function(){
     let show = true;
 
@@ -143,7 +144,7 @@ export default Ember.Component.extend({
   },
 
 
-  useNativeScrollDidChange: observer('useNativeScroll', function () {
+  useNativeScrollDidChange: observer('useNativeScroll','dragWithNativeScroll', function () {
     once(this, this.processUseNativeScrollDidChange)
   }),
 
@@ -331,6 +332,7 @@ export default Ember.Component.extend({
 
 
       let mousedown = false;
+      if(this.get('dragWithNativeScroll')) {
 
 
       self._down = function ( e ) {
@@ -385,7 +387,12 @@ export default Ember.Component.extend({
 
       };
       gestures.addEventListener(document, 'trackend', self._up);
-
+}
+else {
+     //   gestures.removeEventListener(element, 'down', self._down);
+    //    gestures.removeEventListener(element, 'track', self._track);
+    //    gestures.removeEventListener(document, 'trackend', self._up);
+      }
       let contentHeight = contentElement.offsetHeight;// element.getElementsByClassName('scroll-panel-content')[ 0 ].offsetHeight;
       let contentWidth = contentElement.offsetWidth;
       self.set('contentHeight', contentHeight);
@@ -414,15 +421,13 @@ export default Ember.Component.extend({
 
   processDimensionsDidChange() {
 
-    let self = this;
-    let element = this.get('element');
-    let height = element.offsetHeight;
+
     let contentElement = this.get('contentElement');
     let contentHeight = contentElement.offsetHeight;
     let contentWidth = contentElement.offsetWidth;
 
     let contentWidthOffset = this.get('_showVerticalScrollbar') ? 15 : 0;
-    self.get('scroller').setDimensions(this.get('width'), this.get('height'), contentWidth+contentWidthOffset, contentHeight+15);
+    this.get('scroller').setDimensions(this.get('width'), this.get('height'), contentWidth+contentWidthOffset, contentHeight+15);
 
   },
 
@@ -507,13 +512,13 @@ export default Ember.Component.extend({
     let contentElement = this.get('contentElement');
     gestures.removeEventListener(contentElement, 'down', this._down);
     gestures.removeEventListener(contentElement, 'track', this._track);
-    contentElement.removeEventListener('mousewheel', self._wheel, { passive: true });
-    contentElement.removeEventListener('DOMMouseScroll', self._wheel, { passive: true });
-    element.removeEventListener('scroll', self._scroll, { passive: true });
+    contentElement.removeEventListener('mousewheel', this._wheel, { passive: true });
+    contentElement.removeEventListener('DOMMouseScroll', this._wheel, { passive: true });
+    element.removeEventListener('scroll', this._scroll, { passive: true });
     gestures.removeEventListener(element, 'down', this._down);
     gestures.removeEventListener(element, 'track', this._track);
-
     gestures.removeEventListener(document, 'trackend', this._up);
+
 
 
   },
@@ -525,7 +530,10 @@ export default Ember.Component.extend({
     this.set('updates', null);
 
     this.tearDownListeners();
-
+    let element = this.get('element');
+    let contentElement = this.get('contentElement');
+    element.removeEventListener('resize', this._resize);
+    contentElement.removeEventListener('resize',this._resize);
 
   },
 
@@ -584,8 +592,6 @@ export default Ember.Component.extend({
     this.get('resize').observe(this.get('element'));
     this.get('resize').observe(this.get('contentElement'));
     element.addEventListener('resize', this._resize);
-
-
     this.get('contentElement').addEventListener('resize',this._resize);
 
     this.useNativeScrollDidChange();

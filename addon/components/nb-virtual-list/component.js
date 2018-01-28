@@ -10,9 +10,6 @@ import NBScrollPanel from 'nullbase-core/components/nb-scroll-panel/component';
 import AnimationFrameQueue from '../../utils/animation-frame-queue';
 
 
-
-
-
 function makeRAFJS( updates, self, itemHeight, itemContentProperty, items, scrollTop, contentElement ) {
   return function () {
 
@@ -82,39 +79,39 @@ export default NBScrollPanel.extend({
     if ( !this.get('args') ) {
       this.set('args', {});
     }
-    this.set('_AFQ_VIRTUAL_LIST',new AnimationFrameQueue());
+    this.set('_AFQ_VIRTUAL_LIST', new AnimationFrameQueue());
     this.set('renderedComponents', A([]));
-      this.set('childComponentsX', A([]));
+    this.set('childComponentsX', A([]));
     this._super(...arguments);
   },
-  _AFQ_VIRTUAL_LIST:null,
+  _AFQ_VIRTUAL_LIST: null,
   _onRender( scrollLeft, scrollTop ) {
     let self = this;
     let ren = this;
 
-   //   setImmediate(function () {
-        if ( !self.get('isDestroyed') && isFinite(scrollTop) ) {
-          self.set('scrollTop', scrollTop);
-          var itemHeight = self.get('itemHeight');
-          var itemCount = self.get('items') ? self.get('items').length : 0;
-          let element = self.get('element');
-          let contentElement = element.getElementsByClassName('scroll-panel-content')[ 0 ];
+    //   setImmediate(function () {
+    if ( !self.get('isDestroyed') && isFinite(scrollTop) ) {
+      self.set('scrollTop', scrollTop);
+      var itemHeight = self.get('itemHeight');
+      var itemCount = self.get('items') ? self.get('items').length : 0;
+      let element = self.get('element');
+      let contentElement = element.getElementsByClassName('scroll-panel-content')[ 0 ];
 
-          var firstInView = ((Math.floor(scrollTop / itemHeight) - 10) > 0) ? (Math.floor(scrollTop / itemHeight) - 10) : 0;
-          ren.updates = [];
-          var childViewLength = self.get('childComponentsX').length;
-          var i;
-          var loopCounterCache = Math.min(firstInView + childViewLength, itemCount);
-          for ( i = firstInView; i < loopCounterCache; i++ ) {
-            ren.updates.push([ i, i % childViewLength ]);
-          }
+      var firstInView = ((Math.floor(scrollTop / itemHeight) - 10) > 0) ? (Math.floor(scrollTop / itemHeight) - 10) : 0;
+      ren.updates = [];
+      var childViewLength = self.get('childComponentsX').length;
+      var i;
+      var loopCounterCache = Math.min(firstInView + childViewLength, itemCount);
+      for ( i = firstInView; i < loopCounterCache; i++ ) {
+        ren.updates.push([ i, i % childViewLength ]);
+      }
 
-        //  self.get('_AFQ_VIRTUAL_LIST').clear();
-          var raf = makeRAFJS(ren.updates, self, itemHeight, self.get('itemContentProperty'), self.get('items'), scrollTop, contentElement);
-        //  window.requestAnimationFrame(raf);
-          self.get('_AFQ_VIRTUAL_LIST').add(raf);
-        }
-   //   });
+      //  self.get('_AFQ_VIRTUAL_LIST').clear();
+      var raf = makeRAFJS(ren.updates, self, itemHeight, self.get('itemContentProperty'), self.get('items'), scrollTop, contentElement);
+      //  window.requestAnimationFrame(raf);
+      self.get('_AFQ_VIRTUAL_LIST').add(raf);
+    }
+    //   });
 
   },
   _onNativeRender( scrollLeft, scrollTop ) {
@@ -123,7 +120,7 @@ export default NBScrollPanel.extend({
 
     setImmediate(function () {
       if ( !self.get('isDestroyed') && isFinite(scrollTop) ) {
-     //   self.set('scrollTop', scrollTop);
+        //   self.set('scrollTop', scrollTop);
         var itemHeight = self.get('itemHeight');
         var itemCount = self.get('items') ? self.get('items').length : 0;
         let element = self.get('element');
@@ -140,8 +137,8 @@ export default NBScrollPanel.extend({
 
         self.get('_AFQ_VIRTUAL_LIST').clear();
         var raf = makeRAF(ren.updates, self, itemHeight, self.get('itemContentProperty'), self.get('items'), scrollTop, contentElement);
-       self.get('_AFQ_VIRTUAL_LIST').add(raf);
-     //   window.requestAnimationFrame(raf);
+        self.get('_AFQ_VIRTUAL_LIST').add(raf);
+        //   window.requestAnimationFrame(raf);
       }
     });
 
@@ -231,18 +228,18 @@ export default NBScrollPanel.extend({
       raf = makeRAF(updates, self, itemHeight, self.get('itemContentProperty'), self.get('items'));
 
       self.get('_AFQ_VIRTUAL_LIST').add(raf);
-    //  window.requestAnimationFrame(raf);
+      //  window.requestAnimationFrame(raf);
 
 
     }
     else {
       element.getElementsByClassName('scroll-panel-content')[ 0 ].style[ "transform" ] = 'translate3d(0px, 0px, 0)';
       element.getElementsByClassName('scroll-panel-content')[ 0 ].style.height = Math.max(itemCount * self.get('itemHeight'), self.get('height')) + 'px';
-   //   self.get('_AFQ_VIRTUAL_LIST').clear();
+      //   self.get('_AFQ_VIRTUAL_LIST').clear();
       raf = makeRAF(updates, self, itemHeight, self.get('itemContentProperty'), self.get('items'));
 
       self.get('_AFQ_VIRTUAL_LIST').add(raf);
-     // window.requestAnimationFrame(raf);
+      // window.requestAnimationFrame(raf);
 
     }
 
