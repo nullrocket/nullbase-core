@@ -32,6 +32,7 @@ export default Component.extend(ThemedComponent, TreeViewItemMixin, {
   openIcon: 'menu-right-grey',
   closedIcon: 'menu-right-grey',
   icon: 'checkbox-blank-grey',
+  _tracking:true,
   actions: {
     tap(e) {
       this.sendAction('attrs.on-tap', ...arguments);
@@ -98,6 +99,8 @@ export default Component.extend(ThemedComponent, TreeViewItemMixin, {
     this._super(...arguments);
 
     this.get('gestures').removeEventListener(this.get('element').querySelectorAll('.item.' + this.get('_uniqueClassName'))[ 0 ],'tap',this._tap);
+    this.get('gestures').removeEventListener(this.get('element').querySelectorAll('.item.' + this.get('_uniqueClassName'))[ 0 ],'trackend',this._trackend);
+    this.get('gestures').removeEventListener(this.get('element').querySelectorAll('.item.' + this.get('_uniqueClassName'))[ 0 ],'trackstart',this._trackstart);
     this.get('element').removeEventListener('mouseenter',this._mouseenter);
     this.get('element').removeEventListener('mouseleave',this._mouseleave);
   },
@@ -106,11 +109,33 @@ export default Component.extend(ThemedComponent, TreeViewItemMixin, {
     this._super(...arguments);
     let self = this;
     let gestures = this.get('gestures');
-
+    this.get('element').querySelectorAll('.item.' + this.get('_uniqueClassName'))[ 0 ].dataset.wiggle = 200;
     this._tap = function (e) {
-      self.send('tap',e);
+      if(!self.get('_tracking')) {
+
+        self.send("tap", e);
+      }
+      self.set('_tracking',false);
+
     };
     gestures.addEventListener(this.get('element').querySelectorAll('.item.' + this.get('_uniqueClassName'))[ 0 ], 'tap', this._tap);
+
+    this._trackend = function(e){
+
+      self.set('_tracking',true);
+
+    };
+
+    gestures.addEventListener(this.get('element').querySelectorAll('.item.' + this.get('_uniqueClassName'))[ 0 ],'trackend',this._trackend);
+
+    this._trackstart = function(e){
+
+      self.set('_tracking',true);
+
+    };
+    gestures.addEventListener(this.get('element').querySelectorAll('.item.' + this.get('_uniqueClassName'))[ 0 ],'trackstart',this._trackstart);
+
+
     this._mouseenter =  function () {
       self.set('hover', true);
     };

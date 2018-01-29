@@ -87,6 +87,8 @@ export default Mixin.create(ThemedComponent, {
     element.removeEventListener('mouseout', this._mouseout);
     element.removeEventListener('click', this._click);
     element.removeEventListener('touchstart', this._touchstart);
+    removeEventListener(element,'trackend',this._trackend);
+    removeEventListener(element,'trackstart',this._trackstart);
     this._super(...arguments);
   },
 
@@ -229,7 +231,7 @@ export default Mixin.create(ThemedComponent, {
     if ( self.get('useNativeClick') ) {
 
       element.addEventListener('click', this._click);
-      element.addEventListener('touchstart', this._touchstart);
+    //  element.addEventListener('touchstart', this._touchstart);
     }
     else {
       gestures.addEventListener(element, 'tap', this._tap);
@@ -248,16 +250,18 @@ export default Mixin.create(ThemedComponent, {
     });
 
     element.dataset.wiggle = 200;
-    gestures.addEventListener(element,'trackend',function(e){
+    this._trackend = function(e){
 
       self.set('_tracking',true);
 
-    });
-    gestures.addEventListener(element,'trackstart',function(e){
+    }
+    gestures.addEventListener(element,'trackend',this._trackstart);
+    this._trackstart=function(e){
 
       self.set('_tracking',true);
 
-    });
+    };
+    gestures.addEventListener(element,'trackstart',this._trackstart);
 
     gestures.addEventListener(element, 'down', this._down);
     gestures.addEventListener(element, 'up', this._up);

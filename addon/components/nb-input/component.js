@@ -151,6 +151,7 @@ export default Component.extend(ThemedComponent, {
         if ( successful ) {
 
           this.sendAction('attrs.on-copied', 'success');
+
           /*  self.notifications.info(self.get('i18n').t("Common.Messages.FieldCopied"), {
            autoClear: true,
            clearDuration: 3000
@@ -161,6 +162,7 @@ export default Component.extend(ThemedComponent, {
         else {
 
           this.sendAction('attrs.on-copied', 'failed');
+
           /*self.notifications.error(self.get('i18n').t("Common.Messages.FieldNotCopied"), {
            autoClear: true,
            clearDuration: 3000
