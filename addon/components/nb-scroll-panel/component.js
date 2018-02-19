@@ -8,8 +8,7 @@ import {computed, observer} from "@ember/object";
 import {inject} from "@ember/service";
 import uniqueClass from '../../utils/uniq-class';
 import AnimationFrameQueue from '../../utils/animation-frame-queue';
-
-
+import debounce from 'lodash/debounce';
 
 // TODO: Move this to utils for the theme service
 let wheelDistance = function ( evt ) {
@@ -49,44 +48,38 @@ export default Ember.Component.extend({
   zooming: false,
   minZoom: 0.5,
   maxZoom: 3,
-  enableDragScrollForNative:true,
-  _showVerticalScrollbar:computed('showVerticalScrollbar','contentHeight','height','useNativeScroll',function(){
+  enableDragScrollForNative: true,
+  _showVerticalScrollbar: computed('showVerticalScrollbar', 'contentHeight', 'height', 'useNativeScroll', function () {
     let show = true;
 
-    if(this.get('showVerticalScrollbar') === 'hide')
-    {
+    if ( this.get('showVerticalScrollbar') === 'hide' ) {
       show = false;
     }
-    if(this.get('showVerticalScrollbar') === 'auto')
-    {
+    if ( this.get('showVerticalScrollbar') === 'auto' ) {
 
       show = this.get('contentHeight') > this.get('height');
     }
-    if(this.get('showVerticalScrollbar') === 'show' )
-    {
+    if ( this.get('showVerticalScrollbar') === 'show' ) {
 
-      show = true ;
+      show = true;
     }
 
     return show;
   }),
 
-  _showHorizontalScrollbar:computed('showHorizontalScrollbar','contentWidth','width','useNativeScroll',function(){
+  _showHorizontalScrollbar: computed('showHorizontalScrollbar', 'contentWidth', 'width', 'useNativeScroll', function () {
     let show = true;
 
-    if(this.get('showHorizontalScrollbar') === 'hide')
-    {
+    if ( this.get('showHorizontalScrollbar') === 'hide' ) {
       show = false;
     }
-    if(this.get('showHorizontalScrollbar') === 'auto')
-    {
+    if ( this.get('showHorizontalScrollbar') === 'auto' ) {
 
       show = this.get('contentWidth') > this.get('width');
     }
-    if(this.get('showHorizontalScrollbar') === 'show' )
-    {
+    if ( this.get('showHorizontalScrollbar') === 'show' ) {
 
-      show = true ;
+      show = true;
     }
 
     return show;
@@ -106,11 +99,11 @@ export default Ember.Component.extend({
    *  'auto','hide','show'
    */
   showHorizontalScrollbar: 'auto',
-  
-  
+
+
   scrollBar: true,
   _verticalScrollbarElement: null,
-  _horizontalScrollbarElement:null,
+  _horizontalScrollbarElement: null,
 
   attributeBindings: [ 'tabindex' ],
   tabindex: 0,
@@ -144,7 +137,7 @@ export default Ember.Component.extend({
   },
 
 
-  useNativeScrollDidChange: observer('useNativeScroll','dragWithNativeScroll', function () {
+  useNativeScrollDidChange: observer('useNativeScroll', 'dragWithNativeScroll', function () {
     once(this, this.processUseNativeScrollDidChange)
   }),
 
@@ -191,19 +184,19 @@ export default Ember.Component.extend({
         if ( !self.get('isDestroyed') ) {
           let contentHeight = contentElement.offsetHeight;
           let viewPortHeight = self.get('height');
-          let vpos =  (scrollTop ) / ((contentHeight - viewPortHeight) / (viewPortHeight - vScrollKnob.offsetHeight ));
-          vpos = Math.min(isNaN(vpos)?0:vpos, (viewPortHeight - vScrollKnob.offsetHeight));
+          let vpos = (scrollTop ) / ((contentHeight - viewPortHeight) / (viewPortHeight - vScrollKnob.offsetHeight ));
+          vpos = Math.min(isNaN(vpos) ? 0 : vpos, (viewPortHeight - vScrollKnob.offsetHeight));
 
           let contentWidth = contentElement.offsetWidth;
           let viewPortWidth = self.get('width');
-          let hpos =(scrollLeft ) / ((contentWidth - viewPortWidth) / (viewPortWidth - hScrollKnob.offsetWidth));
+          let hpos = (scrollLeft ) / ((contentWidth - viewPortWidth) / (viewPortWidth - hScrollKnob.offsetWidth));
 
-          hpos = Math.min(isNaN(hpos) ?0:hpos, (viewPortWidth - hScrollKnob.offsetWidth));
+          hpos = Math.min(isNaN(hpos) ? 0 : hpos, (viewPortWidth - hScrollKnob.offsetWidth));
 
           self._rafArgs[ 0 ] = scrollLeft;
           self._rafArgs[ 1 ] = scrollTop;
-          self._rafArgs[ 2 ] = vpos -15;
-          self._rafArgs[ 3 ] = hpos -15;
+          self._rafArgs[ 2 ] = vpos - 15;
+          self._rafArgs[ 3 ] = hpos - 15;
 
           self.get('_AFQ_SCROLL_PANEL').clear();
           self.get('_AFQ_SCROLL_PANEL').add(_raf);
@@ -296,8 +289,8 @@ export default Ember.Component.extend({
 
       };
 
-      contentElement.addEventListener("mousewheel", self._wheel, { passive: true });
-      contentElement.addEventListener("DOMMouseScroll", self._wheel, { passive: true });
+      contentElement.addEventListener("mousewheel", self._wheel, { passive: false });
+      contentElement.addEventListener("DOMMouseScroll", self._wheel, { passive: false });
 
 
     }
@@ -325,88 +318,130 @@ export default Ember.Component.extend({
           self.get('_AFQ_SCROLL_PANEL').clear();
           //window.requestAnimationFrame(_raf2);
           self.get('_AFQ_SCROLL_PANEL').add(_raf2);
-          self._onNativeRender(scrollLeft, scrollTop);
+
+            self._onNativeRender(scrollLeft, scrollTop);
+
+
         }
 
       };
 
 
       let mousedown = false;
-      if(this.get('dragWithNativeScroll')) {
+      if ( this.get('dragWithNativeScroll') ) {
 
 
-      self._down = function ( e ) {
+        self._down = function ( e ) {
 
-        self.get('scroller').scrollTo(element.scrollLeft, element.scrollTop);
-        if ( self && scroller && !mousedown ) {
-          if ( e.target.tagName.match(/input|textarea|select/i) ) {
-            return;
-          }
-          scroller.doTouchStart([
-            {
-              pageX: e.pageX,
-              pageY: e.pageY
+          self.get('scroller').scrollTo(element.scrollLeft, element.scrollTop);
+          if ( self && scroller && !mousedown ) {
+            if ( e.target.tagName.match(/input|textarea|select/i) ) {
+              return;
             }
-          ], window.performance.now());
-          mousedown = true;
-        }
-      };
-
-      gestures.addEventListener(element, 'down', self._down);
-
-
-      self._track = function ( e ) {
-        e.stopPropagation();
-        if ( self && scroller ) {
-          if ( !mousedown ) {
-            return;
+            scroller.doTouchStart([
+              {
+                pageX: e.pageX,
+                pageY: e.pageY
+              }
+            ], window.performance.now());
+            mousedown = true;
           }
-          //e.stopPropagation();
-          scroller.doTouchMove([
-            {
-              pageX: e.pageX,
-              pageY: e.pageY
+        };
+
+        gestures.addEventListener(element, 'down', self._down);
+
+
+        self._track = function ( e ) {
+          e.stopPropagation();
+          if ( self && scroller ) {
+            if ( !mousedown ) {
+              return;
             }
-          ], window.performance.now());
-        }
-      };
-
-
-      gestures.addEventListener(element, 'track', self._track);
-
-
-      self._up = function ( e ) {
-        e.stopPropagation();
-        if ( self && scroller ) {
-          if ( !mousedown ) {
-            return;
+            //e.stopPropagation();
+            scroller.doTouchMove([
+              {
+                pageX: e.pageX,
+                pageY: e.pageY
+              }
+            ], window.performance.now());
           }
-          scroller.doTouchEnd(window.performance.now());
-          mousedown = false;
-        }
+        };
 
-      };
-      gestures.addEventListener(document, 'trackend', self._up);
-}
-else {
-     //   gestures.removeEventListener(element, 'down', self._down);
-    //    gestures.removeEventListener(element, 'track', self._track);
-    //    gestures.removeEventListener(document, 'trackend', self._up);
+
+        gestures.addEventListener(element, 'track', self._track);
+
+
+        self._up = function ( e ) {
+          e.stopPropagation();
+          if ( self && scroller ) {
+            if ( !mousedown ) {
+              return;
+            }
+            scroller.doTouchEnd(window.performance.now());
+            mousedown = false;
+          }
+
+        };
+        gestures.addEventListener(document, 'trackend', self._up);
+      }
+      else {
+        //   gestures.removeEventListener(element, 'down', self._down);
+        //    gestures.removeEventListener(element, 'track', self._track);
+        //    gestures.removeEventListener(document, 'trackend', self._up);
       }
       let contentHeight = contentElement.offsetHeight;// element.getElementsByClassName('scroll-panel-content')[ 0 ].offsetHeight;
       let contentWidth = contentElement.offsetWidth;
       self.set('contentHeight', contentHeight);
       self.set('contentWidth', contentWidth);
       let contentWidthOffset = this.get('_showVerticalScrollbar') ? 15 : 0;
-      self.get('scroller').setDimensions(self.get('width'), self.get('height'), contentWidth+contentWidthOffset, contentHeight+15);
+      self.get('scroller').setDimensions(self.get('width'), self.get('height'), contentWidth + contentWidthOffset, contentHeight + 15);
 
       scroller.scrollTo(xLeft, xTop, false);
-
+    //  let debounced = debounce(self._onNativeRender,30);
       self._scroll = function ( e ) {
-        self._onNativeRender(e.target.scrollLeft, e.target.scrollTop);
+
+          self._onNativeRender(e.target.scrollLeft, e.target.scrollTop);
+
+
 
       };
-      element.addEventListener('scroll', self._scroll, { passive: true });
+      self._wheel = function ( event ) {
+
+          event.preventDefault();
+event.stopImmediatePropagation();
+        event.stopPropagation();
+        let delta = wheelDistance(event);
+
+        let finalScroll = parseInt(scroller.getValues().top) + parseInt(delta * 100);
+
+        if ( -finalScroll > 0 ) {
+          finalScroll = 0;
+        }
+
+
+        if ( Math.abs(finalScroll) > contentElement.offsetHeight - self.get('height') ) {
+          finalScroll = (contentElement.offsetHeight - self.get('height'));
+
+        }
+
+
+        scroller.scrollTo(scroller.getValues().left, finalScroll);
+
+
+        if ( Math.abs(self.get('lastScrollPosition') - finalScroll) > 50 ) {
+
+
+          self.set('scrollTop', finalScroll);
+          self.set('lastScrollPosition', finalScroll);
+        }
+
+
+      };
+
+      contentElement.addEventListener("mousewheel", self._wheel, { passive: false });
+      contentElement.addEventListener("DOMMouseScroll", self._wheel, { passive: false });
+
+      element.addEventListener('scroll', self._scroll, { passive: false });
 
     }
 
@@ -414,7 +449,7 @@ else {
   },
 
 
-  dimensionsDidChange: on('init', Ember.observer("width", "height", 'contentHeight', 'contentWidth','_showVerticalScrollbar', 'manualUpdate', function () {
+  dimensionsDidChange: on('init', Ember.observer("width", "height", 'contentHeight', 'contentWidth', '_showVerticalScrollbar', 'manualUpdate', function () {
 
     once(this, this.processDimensionsDidChange);
   })),
@@ -427,7 +462,7 @@ else {
     let contentWidth = contentElement.offsetWidth;
 
     let contentWidthOffset = this.get('_showVerticalScrollbar') ? 15 : 0;
-    this.get('scroller').setDimensions(this.get('width'), this.get('height'), contentWidth+contentWidthOffset, contentHeight+15);
+    this.get('scroller').setDimensions(this.get('width'), this.get('height'), contentWidth + contentWidthOffset, contentHeight + 15);
 
   },
 
@@ -497,11 +532,11 @@ else {
 
       let element = this.get('element');
       let contentElement = this.get('contentElement');
-      once(this,function(){
-      this.set('height', force ? element.offsetHeight + 1 : element.offsetHeight);
-      this.set('width', element.offsetWidth);
-      this.set('contentHeight', force ? contentElement.offsetHeight + 1 : contentElement.offsetHeight);
-      this.set('contentWidth', contentElement.offsetWidth);
+      once(this, function () {
+        this.set('height', force ? element.offsetHeight + 1 : element.offsetHeight);
+        this.set('width', element.offsetWidth);
+        this.set('contentHeight', force ? contentElement.offsetHeight + 1 : contentElement.offsetHeight);
+        this.set('contentWidth', contentElement.offsetWidth);
       })
     }
 
@@ -520,7 +555,6 @@ else {
     gestures.removeEventListener(document, 'trackend', this._up);
 
 
-
   },
 
   willDestroyElement: function () {
@@ -533,7 +567,7 @@ else {
     let element = this.get('element');
     let contentElement = this.get('contentElement');
     element.removeEventListener('resize', this._resize);
-    contentElement.removeEventListener('resize',this._resize);
+    contentElement.removeEventListener('resize', this._resize);
 
   },
 
@@ -592,7 +626,7 @@ else {
     this.get('resize').observe(this.get('element'));
     this.get('resize').observe(this.get('contentElement'));
     element.addEventListener('resize', this._resize);
-    this.get('contentElement').addEventListener('resize',this._resize);
+    this.get('contentElement').addEventListener('resize', this._resize);
 
     this.useNativeScrollDidChange();
   },

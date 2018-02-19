@@ -1,6 +1,6 @@
 {
   "name": "nullbase-core",
-  "version": "0.0.11",
+  "version": "0.0.17",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
     "ember-addon"
@@ -53,9 +53,8 @@
     "loader.js": "^4.2.3",
     "lodash-es": "^4.17.4",
     "require-reload": "^0.2.2",
-    "resize-observer-polyfill": "^1.4.2",
+    "resize-observer-polyfill": "^1.4.2"
 
-    "neo-async": "2.1.0"
   },
   "engines": {
     "node": "^4.5 || 6.* || >= 7.*"

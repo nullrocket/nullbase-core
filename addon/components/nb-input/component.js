@@ -7,7 +7,7 @@ import autosize from '../../util/autosize';
 import isString from "lodash/isString";
 import isArray from 'lodash/isArray';
 import join from 'lodash/join';
-import {run,scheduleOnce} from "@ember/runloop";
+import {next,scheduleOnce} from "@ember/runloop";
 import { inject } from "@ember/service";
 function __slice( item, start ) {
   start = ~~start;
@@ -207,9 +207,12 @@ export default Component.extend(ThemedComponent, {
         }*/
     let element = this.get('element');
     let input = element.getElementsByClassName('input-element')[ 0 ];
-    input.removeEventListener('blur', this._blur);
-    input.removeEventListener('focus', this._focus);
-    element.removeEventListener('inview',this._inView);
+
+    if(input) {
+      input.removeEventListener('blur', this._blur);
+      input.removeEventListener('focus', this._focus);
+      element.removeEventListener('inview', this._inView);
+    }
   },
   didInsertElement: function () {
     let self = this;
@@ -219,42 +222,46 @@ export default Component.extend(ThemedComponent, {
     let input = element.getElementsByClassName('input-element')[ 0 ];
 
 
-    this._blur = function () {
+        this._blur = function () {
 
-      run(() => {
-        self.set('focusedDescriptionProperty', "");
-        self.set('focused', false);
-        if ( this.value || (self.get('isMemo') && self.get('readonly')) ) {
-          self.set('used', true);
-        }
-        else {
-          self.set('used', false);
-        }
-      });
-    };
+          next(() => {
+            self.set('focusedDescriptionProperty', "");
+            self.set('focused', false);
+            if ( self.get('value') || (self.get('isMemo') && self.get('readonly')) ) {
+              self.set('used', true);
+            }
+            else {
+              self.set('used', false);
+            }
+          });
+        };
 
-    input.addEventListener('blur', this._blur);
-
-
-    this._focus = function () {
-      run(() => {
-        self.set('focusedDescriptionProperty', self.get('description'));
-        self.set('focused', true);
-      });
-    };
+        input.addEventListener('blur', this._blur);
 
 
-    input.addEventListener('focus', this._focus);
+        this._focus = function () {
+          next(() => {
+            self.set('focusedDescriptionProperty', self.get('description'));
+            self.set('focused', true);
+          });
+        };
+
+
+        input.addEventListener('focus', this._focus);
 
 
     this._down = function ( inEvent ) {
+      next(()=>{
       inEvent.preventDefault();
       inEvent.stopImmediatePropagation();
       input.focus();
+      });
     };
     self._up = function ( e ) {
+      next(()=>{
       e.preventDefault();
       e.stopImmediatePropagation();
+      });
     };
 
   scheduleOnce('afterRender', () => {
@@ -270,6 +277,7 @@ export default Component.extend(ThemedComponent, {
       autosize(input);
       this.get('intersection').observe(this.get('element'));
       this._inView = function ( /*event*/ ) {
+
         autosize.update(input);
 
       };

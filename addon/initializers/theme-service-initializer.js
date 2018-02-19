@@ -22,26 +22,36 @@ export function initialize( application ) {
     },
 
     insertRule( rule, instance ){
-      if(document.styleSheets[ document.styleSheets.length - 1 ].cssRules) {
-        let index = document.styleSheets[ document.styleSheets.length - 1 ].cssRules.length;
-        document.styleSheets[ document.styleSheets.length - 1 ].insertRule(rule, index);
-        instance.get('_insertedStyles').push(this.getRuleSelector(rule));
+      try {
+        if ( document.styleSheets[ document.styleSheets.length - 1 ].cssRules ) {
+          let index = document.styleSheets[ document.styleSheets.length - 1 ].cssRules.length;
+          document.styleSheets[ document.styleSheets.length - 1 ].insertRule(rule, index);
+          instance.get('_insertedStyles').push(this.getRuleSelector(rule));
+        }
+      }
+      catch(e){
+
       }
 
     },
     deleteInstanceRules( instance ){
-      if(document.styleSheets[ document.styleSheets.length - 1 ].cssRules) {
-        each(instance.get("_insertedStyles"), function ( selectorText ) {
-          var index = findIndex(document.styleSheets[ document.styleSheets.length - 1 ].cssRules, function ( cssRule ) {
+      try {
+        if ( document.styleSheets[ document.styleSheets.length - 1 ].cssRules ) {
+          each(instance.get("_insertedStyles"), function ( selectorText ) {
+            var index = findIndex(document.styleSheets[ document.styleSheets.length - 1 ].cssRules, function ( cssRule ) {
 
-            return cssRule.selectorText === selectorText;
+              return cssRule.selectorText === selectorText;
+            });
+            //console.log(index);
+            if ( index >= 0 ) {
+              document.styleSheets[ document.styleSheets.length - 1 ].deleteRule(index);
+            }
           });
-          //console.log(index);
-          if ( index >= 0 ) {
-            document.styleSheets[ document.styleSheets.length - 1 ].deleteRule(index);
-          }
-        });
-        instance.set("_insertedStyles", []);
+          instance.set("_insertedStyles", []);
+        }
+      }
+      catch(e){
+
       }
 
     },

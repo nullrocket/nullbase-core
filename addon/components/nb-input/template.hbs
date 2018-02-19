@@ -10,7 +10,12 @@
 
                 {{textarea type=type value=value  name=inputId class=inputClasses rows=rows spellcheck=false autocomplete="off" readonly=readonly}}
             {{else}}
-                {{input type=type value=value  name=inputId class=inputClasses spellcheck=false title=title autocomplete=autocomplete autocapitalize="off" autocorrect="off" readonly=readonly }}
+                {{#if isMasked}}
+                    {{input type="password" value=value  name=inputId class=inputClasses spellcheck=false title=title autocomplete=autocomplete autocapitalize="off" autocorrect="off" readonly=readonly }}
+                {{else}}
+                    {{input type="text" value=value  name=inputId class=inputClasses spellcheck=false title=title autocomplete=autocomplete autocapitalize="off" autocorrect="off" readonly=readonly }}
+                {{/if}}
+
             {{/if}}
         </div>
         <div class="buttons">

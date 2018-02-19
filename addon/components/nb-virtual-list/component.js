@@ -18,15 +18,16 @@ function makeRAFJS( updates, self, itemHeight, itemContentProperty, items, scrol
     var childComponents = self ? self.get('childComponentsX') : undefined;
 
     if ( childComponents ) {
-      var updatesLength = updates.length;
-      for ( var i = 0; i < updatesLength; i++ ) {
+      let updatesLength = updates.length;
+      for ( let i = 0; i < updatesLength; i++ ) {
         if ( childComponents[ updates[ i ][ 1 ] ] && !childComponents[ updates[ i ][ 1 ] ].get('isDestroyed') ) {
           childComponents[ updates[ i ][ 1 ] ].get('element').style[ "transform" ] = 'translate3d(0px, ' + (updates[ i ][ 0 ] * itemHeight) + 'px, 0)';
+
         }
       }
 
       setImmediate(() => {
-        for ( var i = 0; i < updatesLength; i++ ) {
+        for ( let i = 0; i < updatesLength; i++ ) {
           if ( childComponents[ updates[ i ][ 1 ] ] && !childComponents[ updates[ i ][ 1 ] ].get('isDestroyed') ) {
             childComponents[ updates[ i ][ 1 ] ].set(itemContentProperty, items[ updates[ i ][ 0 ] ]);
           }
@@ -40,33 +41,37 @@ function makeRAFJS( updates, self, itemHeight, itemContentProperty, items, scrol
 }
 
 
-function makeRAF( updates, self, itemHeight, itemContentProperty, items ) {
+function makeRAF( updates, self, itemHeight, itemContentProperty, items) {
 
   return function () {
 
-    var childComponents = self ? clone(self.get('childComponentsX')) : undefined;
+
+    let childComponents = self ? self.get('childComponentsX') : undefined;
 
     if ( childComponents && childComponents.length ) {
-      for ( var i = 0; i < updates.length; i++ ) {
+      for ( let i = 0; i < updates.length; i++ ) {
 
         if ( childComponents[ updates[ i ][ 1 ] ] && !childComponents[ updates[ i ][ 1 ] ].get('isDestroyed') ) {
+
           childComponents[ updates[ i ][ 1 ] ].get('element').style[ "transform" ] = 'translate3d(0px, ' + (updates[ i ][ 0 ] * itemHeight) + 'px, 0) scale(1)';
+
 
         }
 
       }
+    //  setImmediate(function () {
 
-      setImmediate(function () {
 
-        for ( var i = 0; i < updates.length; i++ ) {
+        for ( let i = 0; i < updates.length; i++ ) {
 
           if ( childComponents[ updates[ i ][ 1 ] ] && !childComponents[ updates[ i ][ 1 ] ].get('isDestroyed') ) {
-
             childComponents[ updates[ i ][ 1 ] ].set(itemContentProperty, items[ updates[ i ][ 0 ] ]);
+
 
           }
         }
-      });
+
+   //   });
     }
 
   };
@@ -92,22 +97,22 @@ export default NBScrollPanel.extend({
     //   setImmediate(function () {
     if ( !self.get('isDestroyed') && isFinite(scrollTop) ) {
       self.set('scrollTop', scrollTop);
-      var itemHeight = self.get('itemHeight');
-      var itemCount = self.get('items') ? self.get('items').length : 0;
+      let itemHeight = self.get('itemHeight');
+      let itemCount = self.get('items') ? self.get('items').length : 0;
       let element = self.get('element');
       let contentElement = element.getElementsByClassName('scroll-panel-content')[ 0 ];
 
-      var firstInView = ((Math.floor(scrollTop / itemHeight) - 10) > 0) ? (Math.floor(scrollTop / itemHeight) - 10) : 0;
+      let firstInView = ((Math.floor(scrollTop / itemHeight) - 10) > 0) ? (Math.floor(scrollTop / itemHeight) - 10) : 0;
       ren.updates = [];
-      var childViewLength = self.get('childComponentsX').length;
-      var i;
-      var loopCounterCache = Math.min(firstInView + childViewLength, itemCount);
+      let childViewLength = self.get('childComponentsX').length;
+      let i;
+      let loopCounterCache = Math.min(firstInView + childViewLength, itemCount);
       for ( i = firstInView; i < loopCounterCache; i++ ) {
         ren.updates.push([ i, i % childViewLength ]);
       }
 
-      //  self.get('_AFQ_VIRTUAL_LIST').clear();
-      var raf = makeRAFJS(ren.updates, self, itemHeight, self.get('itemContentProperty'), self.get('items'), scrollTop, contentElement);
+      self.get('_AFQ_VIRTUAL_LIST').clear();
+      let raf = makeRAFJS(ren.updates, self, itemHeight, self.get('delayedProp'), self.get('items'), scrollTop, contentElement);
       //  window.requestAnimationFrame(raf);
       self.get('_AFQ_VIRTUAL_LIST').add(raf);
     }
@@ -118,35 +123,36 @@ export default NBScrollPanel.extend({
     let self = this;
     let ren = this;
 
-    setImmediate(function () {
-      if ( !self.get('isDestroyed') && isFinite(scrollTop) ) {
-        //   self.set('scrollTop', scrollTop);
-        var itemHeight = self.get('itemHeight');
-        var itemCount = self.get('items') ? self.get('items').length : 0;
-        let element = self.get('element');
-        let contentElement = element.getElementsByClassName('scroll-panel-content')[ 0 ];
+       setImmediate(function () {
+    if ( !self.get('isDestroyed') && isFinite(scrollTop) ) {
 
-        var firstInView = ((Math.floor(scrollTop / itemHeight) - 10) > 0) ? (Math.floor(scrollTop / itemHeight) - 10) : 0;
-        ren.updates = [];
-        var childViewLength = self.get('childComponentsX').length;
-        var i;
-        var loopCounterCache = Math.min(firstInView + childViewLength, itemCount);
-        for ( i = firstInView; i < loopCounterCache; i++ ) {
-          ren.updates.push([ i, i % childViewLength ]);
-        }
+      let itemHeight = self.get('itemHeight');
+      let itemCount = self.get('items') ? self.get('items').length : 0;
 
-        self.get('_AFQ_VIRTUAL_LIST').clear();
-        var raf = makeRAF(ren.updates, self, itemHeight, self.get('itemContentProperty'), self.get('items'), scrollTop, contentElement);
-        self.get('_AFQ_VIRTUAL_LIST').add(raf);
-        //   window.requestAnimationFrame(raf);
+
+      let firstInView = ((Math.floor(scrollTop / itemHeight)) > 0) ? (Math.floor(scrollTop / itemHeight)) - 50 : 0;
+      ren.updates = [];
+      let childViewLength = self.get('childComponentsX').length;
+      let i;
+      let loopCounterCache = Math.min(firstInView + childViewLength, itemCount);
+      for ( i = firstInView; i < loopCounterCache; i++ ) {
+        ren.updates.push([ i, i % childViewLength ]);
       }
-    });
+
+      self.get('_AFQ_VIRTUAL_LIST').clear();
+      let raf = makeRAF(ren.updates, self, itemHeight, self.get('itemContentProperty'), self.get('items'));
+      self.get('_AFQ_VIRTUAL_LIST').add(raf);
+     //      window.requestAnimationFrame(raf);
+
+    }
+
+      });
 
   },
   items: null,
   itemHeight: null,
   itemComponent: null,
-  itemContentProperty: null,
+  delayedProp: null,
   renderedComponentsDidChange: on('init', observer('items', 'items.[]', 'height', 'width', 'updateTrigger', function () {
     once(this, 'processRenderedComponentsChange');
   })),
@@ -165,31 +171,31 @@ export default NBScrollPanel.extend({
       requiredItemCount = Math.min(itemCount, Math.ceil(height / itemHeight) + 100);
     }
     else {
-      requiredItemCount = Math.min(itemCount, Math.ceil(height / itemHeight) + 40);
+      requiredItemCount = Math.min(itemCount, Math.ceil(height / itemHeight) + 100);
     }
 
-    var childViewCount = self.get('renderedComponents').length;
-    var scrollTop = self.get('scrollTop');
+    let childViewCount = self.get('renderedComponents').length;
+    let scrollTop = self.get('scrollTop');
 
     if ( requiredItemCount < childViewCount ) {
       self.set('renderedComponents', A(take(self.get('renderedComponents'), requiredItemCount)));
     }
 
     //   setImmediate(function(){
-    var objects = [];
+    let objects = [];
 
-    for ( var i = childViewCount; i < requiredItemCount; i++ ) {
+    for ( let i = childViewCount; i < requiredItemCount; i++ ) {
       objects.push(self.get('itemComponent'));
 
     }
     self.get('renderedComponents').pushObjects(objects);
 
-    var firstInView = ((Math.floor(scrollTop / itemHeight) - 4) > 0) ? (Math.floor(scrollTop / itemHeight) - 4) : 0;
+    let firstInView = ((Math.floor(scrollTop / itemHeight) ) > 0) ? (Math.floor(scrollTop / itemHeight) - 50) : 0;
 
-    var updates = [];
-    var childViewLength = self.get('renderedComponents').length;
+    let updates = [];
+    let childViewLength = self.get('renderedComponents').length;
 
-    var x = Math.min((firstInView ) + childViewLength, itemCount);
+    let x = Math.min((firstInView ) + childViewLength, itemCount);
     for ( let i = firstInView; i < x; i++ ) {
       updates.push([ i, i % childViewLength ]);
     }
@@ -225,7 +231,7 @@ export default NBScrollPanel.extend({
 
       self.get('_AFQ_VIRTUAL_LIST').clear();
 
-      raf = makeRAF(updates, self, itemHeight, self.get('itemContentProperty'), self.get('items'));
+      raf = makeRAF(updates, self, itemHeight, self.get('delayedProp'), self.get('items'));
 
       self.get('_AFQ_VIRTUAL_LIST').add(raf);
       //  window.requestAnimationFrame(raf);
@@ -236,10 +242,10 @@ export default NBScrollPanel.extend({
       element.getElementsByClassName('scroll-panel-content')[ 0 ].style[ "transform" ] = 'translate3d(0px, 0px, 0)';
       element.getElementsByClassName('scroll-panel-content')[ 0 ].style.height = Math.max(itemCount * self.get('itemHeight'), self.get('height')) + 'px';
       //   self.get('_AFQ_VIRTUAL_LIST').clear();
-      raf = makeRAF(updates, self, itemHeight, self.get('itemContentProperty'), self.get('items'));
+      raf = makeRAF(updates, self, itemHeight, self.get('delayedProp'), self.get('items'));
 
-      self.get('_AFQ_VIRTUAL_LIST').add(raf);
-      // window.requestAnimationFrame(raf);
+      //self.get('_AFQ_VIRTUAL_LIST').add(raf);
+       window.requestAnimationFrame(raf);
 
     }
 

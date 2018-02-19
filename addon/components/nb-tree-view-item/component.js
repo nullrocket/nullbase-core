@@ -32,7 +32,7 @@ export default Component.extend(ThemedComponent, TreeViewItemMixin, {
   openIcon: 'menu-right-grey',
   closedIcon: 'menu-right-grey',
   icon: 'checkbox-blank-grey',
-  _tracking:true,
+  _tracking:false,
   actions: {
     tap(e) {
       this.sendAction('attrs.on-tap', ...arguments);
@@ -115,6 +115,7 @@ export default Component.extend(ThemedComponent, TreeViewItemMixin, {
 
         self.send("tap", e);
       }
+
       self.set('_tracking',false);
 
     };
@@ -122,7 +123,7 @@ export default Component.extend(ThemedComponent, TreeViewItemMixin, {
 
     this._trackend = function(e){
 
-      self.set('_tracking',true);
+      self.set('_tracking',false);
 
     };
 

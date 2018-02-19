@@ -16,7 +16,10 @@ AnimationFrameQueue.prototype.add = function ( callback ) {
 };
 
 AnimationFrameQueue.prototype.clear = function () {
+
   for ( let i = 0, len = this.queue.length; i < len; i++ ) {
     window.cancelAnimationFrame(this.queue[ i ]);
+
   }
+  this.queue.length = 0;
 };

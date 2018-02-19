@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import layout from './template';
-import async from "npm:neo-async";
+
+import series from 'nullbase-core/neo-async-es/series';
+import {nextTick} from "nullbase-core/neo-async-es/ticks";
 import extend from "lodash/extend";
 const { inject } = Ember;
 export default Ember.Component.extend({
@@ -48,7 +50,7 @@ export default Ember.Component.extend({
     this.get('element').classList.remove('anims');
 
     var options = null;
-    async.series([ function ( callback ) {
+    series([ function ( callback ) {
 
       if ( self.get('tether') ) {
         let width = self.$().outerWidth();
@@ -93,7 +95,7 @@ export default Ember.Component.extend({
 
 
     }, function ( callback ) {
-      async.nextTick(function () {
+      nextTick(function () {
         callback();
         Ember.run.later(function () {
           $(self.get('element')).addClass('show');
