@@ -8,7 +8,7 @@ import {computed, observer} from "@ember/object";
 import {inject} from "@ember/service";
 import uniqueClass from '../../utils/uniq-class';
 import AnimationFrameQueue from '../../utils/animation-frame-queue';
-import debounce from 'lodash/debounce';
+
 
 // TODO: Move this to utils for the theme service
 let wheelDistance = function ( evt ) {
@@ -319,7 +319,7 @@ export default Ember.Component.extend({
           //window.requestAnimationFrame(_raf2);
           self.get('_AFQ_SCROLL_PANEL').add(_raf2);
 
-            self._onNativeRender(scrollLeft, scrollTop);
+          self._onNativeRender(scrollLeft, scrollTop);
 
 
         }
@@ -397,18 +397,17 @@ export default Ember.Component.extend({
       self.get('scroller').setDimensions(self.get('width'), self.get('height'), contentWidth + contentWidthOffset, contentHeight + 15);
 
       scroller.scrollTo(xLeft, xTop, false);
-    //  let debounced = debounce(self._onNativeRender,30);
+      //  let debounced = debounce(self._onNativeRender,30);
       self._scroll = function ( e ) {
 
-          self._onNativeRender(e.target.scrollLeft, e.target.scrollTop);
-
+        self._onNativeRender(e.target.scrollLeft, e.target.scrollTop);
 
 
       };
       self._wheel = function ( event ) {
 
-          event.preventDefault();
-event.stopImmediatePropagation();
+        event.preventDefault();
+        event.stopImmediatePropagation();
         event.stopPropagation();
         let delta = wheelDistance(event);
 
@@ -573,6 +572,7 @@ event.stopImmediatePropagation();
 
 
   didReceiveAttrs() {
+
     this._super(...arguments);
 
     if ( this.get('scroller') ) {
@@ -629,6 +629,7 @@ event.stopImmediatePropagation();
     this.get('contentElement').addEventListener('resize', this._resize);
 
     this.useNativeScrollDidChange();
+
   },
   actions: {}
 
