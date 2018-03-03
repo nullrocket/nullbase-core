@@ -65,7 +65,7 @@ export default Component.extend(InboundAction, {
         }
       }
       catch ( e ) {
-        console.log(e);
+      //  console.log(e);
       }
       //   element.remove();
     },
