@@ -1,15 +1,17 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Mixin from '@ember/object/mixin';
 
 import each from "lodash/each";
 
 import bind from "lodash/bind";
 import last from "lodash/last";
 
-export default Ember.Mixin.create({
-  themeService: Ember.inject.service('theme-service'),
+export default Mixin.create({
+  themeService: service('theme-service'),
   themeContext: 'default',
   classNameBindings: [ 'themeContextClass' ],
-  themeContextClass: Ember.computed('themeContext', function () {
+  themeContextClass: computed('themeContext', function () {
     if ( this.get('themeContext') !== 'default' ) {
       return 'theme-context-' + this.get('themeContext');
     }

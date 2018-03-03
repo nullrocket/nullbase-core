@@ -8,7 +8,7 @@
  */
 
 import dispatcher from './dispatcher';
-import {findTarget} from "./targetfind";
+import { findTarget } from "./targetfind";
 
 var pointermap = dispatcher.pointermap;
 

@@ -1,9 +1,11 @@
-import Ember from 'ember';
+import { later } from '@ember/runloop';
+import { inject as service } from '@ember/service';
+import Mixin from '@ember/object/mixin';
 import SpreadMixin from 'ember-spread';
 import createFocusTrap from "nullbase-core/utils/focus-trap";
 
-export default Ember.Mixin.create(SpreadMixin, {
-  gestures: Ember.inject.service(),
+export default Mixin.create(SpreadMixin, {
+  gestures: service(),
   classNames: [ 'nb-menu-backdrop' ],
   classNameBindings: [ 'size' ],
   size: 'size-1',
@@ -51,7 +53,7 @@ export default Ember.Mixin.create(SpreadMixin, {
     },
     show: function () {
       var self = this;
-      Ember.run.later(this, function () {
+      later(this, function () {
         //      this.$().addClass('show');
         var focusTrap = createFocusTrap(this.get('tetherObject').element,{
           initialFocus:this.get('tetherObject').element

@@ -10,7 +10,7 @@
 
 import eventFactory from './eventFactory';
 import PointerMap from './pointermap';
-import {targetFinding} from './targetfind';
+import { targetFinding } from './targetfind';
 let CLONE_PROPS = [
   // MouseEvent
   'bubbles',

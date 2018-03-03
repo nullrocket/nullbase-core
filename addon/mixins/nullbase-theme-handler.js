@@ -1,10 +1,11 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Mixin from '@ember/object/mixin';
 import each from "lodash/each";
 import forIn from "lodash/forIn";
 import omit from "lodash/omit";
 import bind from "lodash/bind";
-export default Ember.Mixin.create({
-  themeService: Ember.inject.service('theme-service'),
+export default Mixin.create({
+  themeService: service('theme-service'),
   init: function () {
     this._super(...arguments);
     this.insertRule = bind(this.get('themeService').insertRule,this.get('themeService'));

@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Service from '@ember/service';
 import each from "lodash/each";
 import findIndex from "lodash/findIndex";
 import bind from "lodash/bind";
@@ -7,8 +8,8 @@ import getThemes from "../utils/get-themes";
 
 export function initialize( application ) {
 
-  var themeService = Ember.Service.extend({
-    themes: Ember.computed(getThemes),
+  var themeService = Service.extend({
+    themes: computed(getThemes),
     init(){
       this._super(...arguments);
 

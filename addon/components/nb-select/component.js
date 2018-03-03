@@ -1,7 +1,7 @@
 
 
 import Component from "@ember/component";
-import { computed,observer } from "@ember/object"
+import { computed, observer } from "@ember/object"
 import layout from './template';
 import ThemedComponent from 'nullbase-core/mixins/nb-themed-component';
 import createFocusTrap from "nullbase-core/utils/focus-trap";

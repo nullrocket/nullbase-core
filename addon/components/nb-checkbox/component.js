@@ -1,7 +1,7 @@
 import Component from "@ember/component";
-import {computed} from "@ember/object"
+import { computed } from "@ember/object"
 import layout from './template';
-import {next} from "@ember/runloop"
+import { next } from "@ember/runloop"
 
 
 import CheckBoxBase from 'nullbase-core/mixins/nb-checkbox-base';

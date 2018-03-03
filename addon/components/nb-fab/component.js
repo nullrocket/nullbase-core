@@ -1,11 +1,12 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
 import layout from './template';
 import ThemedComponent from 'nullbase-core/mixins/nb-themed-component';
 
 
-export default Ember.Component.extend(ThemedComponent, {
+export default Component.extend(ThemedComponent, {
     layout,
-    gestures: Ember.inject.service(),
+    gestures: service(),
     tagName: "div",
     classNames: [ 'nb-fab' ],
 

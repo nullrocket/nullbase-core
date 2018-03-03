@@ -1,6 +1,5 @@
-import Ember from 'ember';
+import { A } from '@ember/array';
 import Mixin from '@ember/object/mixin';
-import { computed } from "@ember/object"
 import { inject as service } from '@ember/service';
 import uniqueClass from 'nullbase-core/utils/uniq-class';
 export default Mixin.create( {
@@ -10,7 +9,7 @@ export default Mixin.create( {
   treeViewItems:null,
   init() {
     this._super(...arguments);
-    this.set('treeViewItems',Ember.A([]));
+    this.set('treeViewItems',A([]));
     this.set('_uniqueClassName', uniqueClass());
   },
   adjustHeight(){

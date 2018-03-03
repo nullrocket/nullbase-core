@@ -2,7 +2,7 @@ import Mixin from '@ember/object/mixin';
 import { computed } from "@ember/object"
 import { inject as service } from '@ember/service';
 import ThemedComponent from 'nullbase-core/mixins/nb-themed-component';
-import {once} from "@ember/runloop";
+import { once } from "@ember/runloop";
 
 export default Mixin.create(ThemedComponent, {
   gestures: service(),

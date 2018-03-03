@@ -1,11 +1,11 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 import Scroller from '../../util/scroller/scroller';
-import {on} from "@ember/object/evented";
-import {once} from "@ember/runloop";
+import { on } from "@ember/object/evented";
+import { once } from "@ember/runloop";
 
 import layout from './template';
-import {computed, observer} from "@ember/object";
-import {inject} from "@ember/service";
+import { computed, observer } from "@ember/object";
+import { inject } from "@ember/service";
 import uniqueClass from '../../utils/uniq-class';
 import AnimationFrameQueue from '../../utils/animation-frame-queue';
 
@@ -22,7 +22,7 @@ let wheelDistance = function ( evt ) {
 };
 
 
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
   gestures: inject(),
   tagName: 'div',
@@ -448,7 +448,7 @@ export default Ember.Component.extend({
   },
 
 
-  dimensionsDidChange: on('init', Ember.observer("width", "height", 'contentHeight', 'contentWidth', '_showVerticalScrollbar', 'manualUpdate', function () {
+  dimensionsDidChange: on('init', observer("width", "height", 'contentHeight', 'contentWidth', '_showVerticalScrollbar', 'manualUpdate', function () {
 
     once(this, this.processDimensionsDidChange);
   })),
@@ -465,7 +465,7 @@ export default Ember.Component.extend({
 
   },
 
-  setupScrollbar: Ember.observer('_verticalScrollbarElement', '_horizontalScrollbarElement', function () {
+  setupScrollbar: observer('_verticalScrollbarElement', '_horizontalScrollbarElement', function () {
     let gestures = this.get('gestures');
     let self = this;
     once(() => {

@@ -1,11 +1,12 @@
-import { later } from '@ember/runloop';
+import {later} from '@ember/runloop';
 import Component from '@ember/component';
 import layout from './template';
 
 import series from 'nullbase-core/neo-async-es/series';
-import { nextTick } from "nullbase-core/neo-async-es/ticks";
+import {nextTick} from "nullbase-core/neo-async-es/ticks";
 import extend from "lodash/extend";
-import { inject as service } from '@ember/service';
+import {inject as service} from '@ember/service';
+
 export default Component.extend({
   layout,
   gestures: service(),
@@ -15,36 +16,37 @@ export default Component.extend({
   elevation: 'elevation-6dp',
   attributeBindings: [ 'tabindex' ],
   tabindex: -1,
+  options: '',
+
   actions: {
-    remove()
-    {
+    remove() {
+
       this.parentView.send("remove");
     }
   }
   ,
-  willDestroyElement()
-  {
-    this._super(...arguments);
+  willDestroyElement() {
+
+
     let gestures = this.get('gestures');
     gestures.removeEventListener(this.get('element'), 'down', this._down);
     this.get('element').classList.remove('pre-show');
     this.get('element').classList.remove('show');
-    this.get('element').removeEventListener('keyup',this._keyup);
-    this.get('element').removeEventListener('keydown',this._keydown);
-    window.removeEventListener('resize',this.resize);
-
+    this.get('element').removeEventListener('keyup', this._keyup);
+    this.get('element').removeEventListener('keydown', this._keydown);
+    window.removeEventListener('resize', this.resize);
+    this._super(...arguments);
   }
   ,
 
-  didInsertElement()
-  {
+  didInsertElement() {
 
-   this._down = function ( e ) {
+    this._down = function ( e ) {
 
 
     };
 
-  //  this.get('gestures').addEventListener(this.get("element"), "down", this._down);
+    //  this.get('gestures').addEventListener(this.get("element"), "down", this._down);
     this._super(...arguments);
     let self = this;
     this.get('element').classList.add('pre-show');
@@ -55,28 +57,29 @@ export default Component.extend({
     series([ function ( callback ) {
 
       if ( self.get('tether') ) {
-      //  let width = self.$().outerWidth();
-      //  let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        //  let width = self.$().outerWidth();
+        //  let h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
         let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         var pos = $(self.get('tether')).offset();
 
-        var side = (pos.left < (w / 2)) ? "left" : "right";
-
+        //        var side = (pos.left < (w / 2)) ? "left" : "right";
+        let side = 'left';
         $(self.get('element')).addClass('expand-' + side);
 
         options = {
           element: self.get('element'),
           target: self.get('tether'),
           attachment: 'top ' + side,
-          targetAttachment: 'top ' + side,
-          //    offset: side ==="right" ? "0 "+width+"px" :"0 0",
+          targetAttachment: 'bottom ' + side,
+          targetOffset: "2px 0 ",
           optimizations: {
 
             gpu: true
           },
           constraints: [
             {
-              to: [ 2, 2, $('body').width() - 2, $('body').height() - 2  ],   //''scrollParent',
+              //to: [ 2, 2, $('body').width() - 2, $('body').height() - 2  ],   //''scrollParent',
+              to: [ 0, 0, $('body').width(), $('body').height() ],   //''scrollParent',
               attachment: 'both',
               pin: true
             }
@@ -101,6 +104,9 @@ export default Component.extend({
         callback();
         later(function () {
           $(self.get('element')).addClass('show');
+          self.get('options.owner').set('open', true);
+
+
         }, 30);
 
       })
@@ -124,7 +130,7 @@ export default Component.extend({
         self.get('parentView.tetherObject').setOptions(extend(options, {
           constraints: [
             {
-              to: [ 2, 2, $('body').width() - 2, $('body').height() -2 ],   //''scrollParent',
+              to: [ 2, 2, $('body').width() - 2, $('body').height() - 2 ],   //''scrollParent',
               attachment: 'both',
               pin: true
             }

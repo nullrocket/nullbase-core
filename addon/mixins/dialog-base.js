@@ -1,10 +1,10 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
 import SpreadMixin from 'ember-spread';
 
 import createFocusTrap from "nullbase-core/utils/focus-trap";
 
 
-export default Ember.Mixin.create(SpreadMixin, {
+export default Mixin.create(SpreadMixin, {
   classNames: [ 'nb-modal-dialog-backdrop' ],
   classNameBindings: [ 'size' ],
   attributeBindings:['tabindex'],

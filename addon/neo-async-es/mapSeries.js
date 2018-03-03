@@ -8,7 +8,7 @@ import obj from './obj';
 import throwError from './throwError';
 import onlyOnce from './onlyOnce';
 import createArray from './createArray';
-import {nextTick} from "./ticks";
+import { nextTick } from "./ticks";
 
 /**
  * @memberof async

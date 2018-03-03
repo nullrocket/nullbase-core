@@ -40,7 +40,7 @@
 import eventFactory from './eventFactory';
 
 import PointerMap from './pointermap';
-import {targetFinding} from "./targetfind";
+import { targetFinding } from "./targetfind";
 
 //  var eventFactory = window.__PolymerGestures__.eventFactory;
 var pointermap = new PointerMap();

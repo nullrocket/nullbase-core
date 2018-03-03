@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { A } from '@ember/array';
 
 const matchKey = '/themes/(.+)/theme$';
 
@@ -11,6 +11,6 @@ export default function getThemes() {
                    themes.pushObject(requirejs(module).default);
                  }
                  return themes;
-               }, Ember.A())
+               }, A())
                .sort();
 }

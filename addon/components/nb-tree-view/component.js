@@ -1,5 +1,5 @@
+import { A } from '@ember/array';
 import Component from "@ember/component";
-import Ember from 'ember';
 import layout from './template';
 import ThemedComponent from 'nullbase-core/mixins/nb-themed-component';
 
@@ -9,7 +9,7 @@ export default Component.extend(ThemedComponent, {
   treeViewItems: null,
   init(){
     this._super(...arguments);
-    this.set('treeViewItems',Ember.A([]))
+    this.set('treeViewItems',A([]))
   },
   adjustHeight() {
 

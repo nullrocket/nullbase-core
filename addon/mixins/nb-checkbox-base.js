@@ -1,13 +1,15 @@
 /*globals $:false */
-import Ember from 'ember';
+import { computed } from '@ember/object';
+
+import Mixin from '@ember/object/mixin';
 import ThemedComponent from 'nullbase-core/mixins/nb-themed-component';
 import ButtonLike from 'nullbase-core/mixins/nb-button-like';
-export default Ember.Mixin.create(ThemedComponent,ButtonLike, {
+export default Mixin.create(ThemedComponent,ButtonLike, {
   tagName: "div",
   label: "",
   classNameBindings: [ 'disabled:disabled', 'type', 'labelPosition', 'label::no-label', 'pressed:pressed', 'hover:hover' ],
   disabled: false,
-  icon: Ember.computed('checked', function () {
+  icon: computed('checked', function () {
     var self = this;
     if ( this.get('checked') ) {
 
@@ -28,7 +30,7 @@ export default Ember.Mixin.create(ThemedComponent,ButtonLike, {
   checkedIcon: "checkbox-marked-grey",
   uncheckedIcon: "checkbox-blank-outline-grey",
   maybeCheckedIcon: "minus-box-grey",
-  _currentIcon: Ember.computed('uncheckedIcon', 'checkedIcon', 'maybeCheckedIcon', 'checked', function () {
+  _currentIcon: computed('uncheckedIcon', 'checkedIcon', 'maybeCheckedIcon', 'checked', function () {
     return this.get('checked') ? this.get('checkedIcon') : this.get('checked') != null ? this.get('uncheckedIcon') : this.get('maybeCheckedIcon');
   }),
 

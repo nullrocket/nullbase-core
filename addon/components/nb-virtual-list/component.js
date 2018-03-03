@@ -1,7 +1,7 @@
-import { observer} from "@ember/object";
-import {on} from "@ember/object/evented";
-import {once} from "@ember/runloop";
-import {A} from "@ember/array"
+import { observer } from "@ember/object";
+import { on } from "@ember/object/evented";
+import { once } from "@ember/runloop";
+import { A } from "@ember/array"
 import layout from './template';
 import take from 'lodash/take';
 import isFinite from 'lodash/isFinite';

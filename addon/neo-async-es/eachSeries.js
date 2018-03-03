@@ -8,7 +8,7 @@ import iteratorSymbol from './iteratorSymbol';
 
 import obj from './obj';
 
-import {nextTick} from "./ticks";
+import { nextTick } from "./ticks";
 import onlyOnce from './onlyOnce';
 /**
  * @memberof async

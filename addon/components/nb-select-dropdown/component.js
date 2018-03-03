@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 import layout from './template';
 
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
   classNames: [ 'nb-select-drop-down', 'elevation-2dp' ],
   attributeBindings: [ 'tabindex' ],

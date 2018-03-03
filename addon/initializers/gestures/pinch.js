@@ -56,7 +56,7 @@
 import eventFactory from './eventFactory';
 
 import PointerMap from './pointermap';
-import {targetFinding} from "./targetfind";
+import { targetFinding } from "./targetfind";
 
 
 var pointermap = new PointerMap();

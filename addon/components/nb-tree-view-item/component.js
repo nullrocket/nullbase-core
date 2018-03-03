@@ -3,10 +3,10 @@ import Component from "@ember/component";
 import ThemedComponent from 'nullbase-core/mixins/nb-themed-component';
 import TreeViewItemMixin from 'nullbase-core/mixins/nb-tree-view-item';
 import layout from './template';
-import {on} from "@ember/object/evented";
-import {once} from "@ember/runloop";
-import {computed, observer} from "@ember/object";
-import {inject} from "@ember/service";
+import { on } from "@ember/object/evented";
+import { once } from "@ember/runloop";
+import { computed, observer } from "@ember/object";
+import { inject } from "@ember/service";
 
 
 export default Component.extend(ThemedComponent, TreeViewItemMixin, {

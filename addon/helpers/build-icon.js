@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import Helper from '@ember/component/helper';
 
 
-export default Ember.Helper.extend({
+export default Helper.extend({
   compute(params,hash) {
 
     let icon = params[0];

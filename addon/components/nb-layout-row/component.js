@@ -1,9 +1,9 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 import layout from './template';
 import ThemedComponent from 'nullbase-core/mixins/nb-themed-component';
 
 
-export default Ember.Component.extend(ThemedComponent, {
+export default Component.extend(ThemedComponent, {
   tagName:'div',
   classNames: ["row"],
   xsAlign:"",

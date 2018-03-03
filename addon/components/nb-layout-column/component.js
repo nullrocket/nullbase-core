@@ -1,15 +1,16 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 import layout from './template';
 import ThemedComponent from 'nullbase-core/mixins/nb-themed-component';
 
 
 
-export default Ember.Component.extend(ThemedComponent, {
+export default Component.extend(ThemedComponent, {
   tagName:'div',
   classNames:["col"],
   classNameBindings:["xs","md","sm","lg","paddingLeft","paddingRight","paddingBottom","paddingTop"],
   layout,
-  xs:Ember.computed('attrs.col-xs',function(){
+  xs:computed('attrs.col-xs',function(){
     if(this.get('attrs.col-xs')) {
       return 'col-xs-' + this.get('attrs.col-xs');
     }
@@ -17,7 +18,7 @@ export default Ember.Component.extend(ThemedComponent, {
       return "";
     }
   }),
-  md:Ember.computed('attrs.col-md',function(){
+  md:computed('attrs.col-md',function(){
     if(this.get('attrs.col-md')) {
       return 'col-md-' + this.get('attrs.col-md');
     }
@@ -25,7 +26,7 @@ export default Ember.Component.extend(ThemedComponent, {
       return "";
     }
   }),
-  sm:Ember.computed('attrs.col-sm',function(){
+  sm:computed('attrs.col-sm',function(){
     if(this.get('attrs.col-sm')) {
       return 'col-sm-' + this.get('attrs.col-sm');
     }
@@ -33,7 +34,7 @@ export default Ember.Component.extend(ThemedComponent, {
       return "";
     }
   }),
-  lg:Ember.computed('attrs.col-lg',function(){
+  lg:computed('attrs.col-lg',function(){
     if(this.get('attrs.col-lg')) {
       return 'col-lg-' + this.get('attrs.col-lg');
     }
@@ -41,7 +42,7 @@ export default Ember.Component.extend(ThemedComponent, {
       return "";
     }
   }),
-  paddingLeft:Ember.computed('attrs.padding-left',function(){
+  paddingLeft:computed('attrs.padding-left',function(){
     if(this.get('attrs.padding-left')) {
       return 'padding-left-' + this.get('attrs.padding-left');
     }
@@ -49,7 +50,7 @@ export default Ember.Component.extend(ThemedComponent, {
       return "";
     }
   }),
-  paddingRight:Ember.computed('attrs.padding-right',function(){
+  paddingRight:computed('attrs.padding-right',function(){
     if(this.get('attrs.padding-right')) {
       return 'padding-right-' + this.get('attrs.padding-right');
     }
@@ -57,7 +58,7 @@ export default Ember.Component.extend(ThemedComponent, {
       return ""
     }
   }),
-  paddingTop:Ember.computed('attrs.padding-top',function(){
+  paddingTop:computed('attrs.padding-top',function(){
     if(this.get('attrs.padding-top')) {
       return 'padding-top-' + this.get('attrs.padding-top');
     }
@@ -65,7 +66,7 @@ export default Ember.Component.extend(ThemedComponent, {
       return "";
     }
   }),
-  paddingBottom:Ember.computed('attrs.padding-bottom',function(){
+  paddingBottom:computed('attrs.padding-bottom',function(){
     if(this.get('attrs.padding-bottom')) {
       return 'padding-bottom-' + this.get('attrs.padding-bottom');
     }

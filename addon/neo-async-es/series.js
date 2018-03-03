@@ -9,7 +9,7 @@ import throwError from './throwError';
 
 import obj from './obj';
 
-import {nextTick} from "./ticks";
+import { nextTick } from "./ticks";
 import onlyOnce from './onlyOnce';
 import slice from './slice';
 

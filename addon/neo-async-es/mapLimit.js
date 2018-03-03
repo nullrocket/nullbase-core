@@ -8,7 +8,7 @@ import timesSync from './timesSync';
 import throwError from './throwError';
 import once from './once';
 import createArray from './createArray';
-import {nextTick} from "./ticks";
+import { nextTick } from "./ticks";
 
 /**
  * @memberof async

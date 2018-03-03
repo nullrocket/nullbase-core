@@ -1,88 +1,90 @@
+import { scheduleOnce } from '@ember/runloop';
+import { A } from '@ember/array';
+import Component from '@ember/component';
+import Mixin from '@ember/object/mixin';
+import EmberObject from '@ember/object';
 import Ember from 'ember';
 import layout from './template';
 import find from "lodash/find";
 import isUndefined from "lodash/isUndefined";
 import has from 'lodash/has';
 
-var ActionProxy = Ember.Object.extend(Ember.ActionHandler);
-var uniqID = {
-  counter: 0,
-  get: function ( prefix ) {
-    if ( !prefix ) {
-      prefix = "uniqid";
-    }
-    var id = prefix + "" + uniqID.counter++;
-    if ( jQuery("#" + id).length === 0 ) {
-      return id;
-    }
-    else {
-      return uniqID.get();
-    }
+let ActionProxy = EmberObject.extend(Ember.ActionHandler);
 
-  }
-};
-var InboundAction = Ember.Mixin.create({
+
+import uniqueClass from 'nullbase-core/utils/uniq-class';
+
+
+let InboundAction = Mixin.create({
   init: function () {
     this._super(...arguments);
     var proxy = ActionProxy.create({
       target: this
     });
     this.set('actionReceiver.actionHandler', proxy);
+
   }
 
 });
 
 
-export default Ember.Component.extend(InboundAction, {
+export default Component.extend(InboundAction, {
   layout,
 
   init: function () {
-
     this.set('actionReceiver', this.get('menuManager'));
-
     this._super(...arguments);
-
-
+    this.set('_uniqueClassName', uniqueClass());
+    this.set('menus',A([]));
+    this.set('menuInstances',A([]));
   },
-
-  menus: Ember.A([]),
-  menuInstances: Ember.A([]),
+  menus:'',
+  menuInstances: '',
   classNames: [ 'menu-manager' ],
 
-  /* reduxStore:Ember.inject.service(),*/
   actions: {
-    remove: function ( aMenu ) {
+    remove( aMenu ) {
+      try {
 
-      if(aMenu) {
-        //     this.get('reduxStore').dispatch({type:'ALLOW_TRANSITIONS'});
-        var menuToRemove = find(this.get('menus'), function ( menu ) {
+        if ( aMenu ) {
+          var menuToRemove = find(this.get('menus'), function ( menu ) {
+            return menu.menuID === aMenu.get('menuID');
+          });
+          if ( aMenu.get('options.owner') ) {
+            aMenu.get('options.owner').set('open', false);
+          }
 
-          return menu.menuID === aMenu.get('menuID');
-        });
+          let element = aMenu.get('tetherObject').element;
+          let menuManager = document.querySelectorAll('.nb-menu-backdrop')[ 0 ];
+          menuManager.appendChild(element);
+          aMenu.get('tetherObject').destroy();
 
-        let element = aMenu.get('tetherObject').element;
-        $(aMenu.get('tetherObject').element).appendTo('.menu-manager .nb-menu-backdrop');
+          this.get('menus').removeObject(menuToRemove);
 
-        aMenu.get('tetherObject').destroy();
-        //  aMenu.get('tether').focus();
-        this.get('menus').removeObject(menuToRemove);
-        $(element).remove();
+
+        }
       }
+      catch ( e ) {
+        console.log(e);
+      }
+      //   element.remove();
     },
 
 
-    show: function ( menuComponent, args ) {
+
+
+    show ( menuComponent, args ) {
 
       // this.get('reduxStore').dispatch({type:'BLOCK_TRANSITIONS'});
-      var self = this;
-      var uniqId = uniqID.get("menu");
-      var type = isUndefined(args) ? "not-set" : has(args, "type") ? args.type : 'not-set';
-      var owner = isUndefined(args) ? null : has(args, "owner") ? args.owner : null;
+      let self = this;
+      let uniqId = this.get('_uniqueClassName');
+      let type = isUndefined(args) ? "not-set" : has(args, "type") ? args.type : 'not-set';
+      let owner = isUndefined(args) ? null : has(args, "owner") ? args.owner : null;
 
       this.get('menus').pushObject({ name: menuComponent, menuID: uniqId, tether: args.tether, type: type, args: args });
       let menu = null;
 
-      Ember.run.scheduleOnce('afterRender', function () {
+      scheduleOnce('afterRender', function () {
         menu = find(self.get('menuInstances'), function ( menu ) {
 
           return menu.get('menuID') === uniqId;
@@ -93,9 +95,9 @@ export default Ember.Component.extend(InboundAction, {
 
             owner.set('childMenu', menu);
           }
-          setTimeout(function () {
+
             menu.send('show', args);
-          }, 0)
+
 
         }
       });

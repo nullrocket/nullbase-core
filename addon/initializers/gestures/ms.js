@@ -8,7 +8,7 @@
  */
 
 import dispatcher from './dispatcher';
-import {findTarget} from "./targetfind";
+import { findTarget } from "./targetfind";
 
 var pointermap = dispatcher.pointermap;
   var HAS_BITMAP_TYPE = window.MSPointerEvent && typeof window.MSPointerEvent.MSPOINTER_TYPE_MOUSE === 'number';

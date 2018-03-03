@@ -1,13 +1,14 @@
 
+import { equal, bool } from '@ember/object/computed';
 import Component from "@ember/component";
-import {computed,observer} from "@ember/object";
+import { computed, observer } from "@ember/object";
 import layout from './template';
 import ThemedComponent from 'nullbase-core/mixins/nb-themed-component';
 import autosize from '../../util/autosize';
 import isString from "lodash/isString";
 import isArray from 'lodash/isArray';
 import join from 'lodash/join';
-import {next,scheduleOnce} from "@ember/runloop";
+import { next, scheduleOnce } from "@ember/runloop";
 import { inject } from "@ember/service";
 function __slice( item, start ) {
   start = ~~start;
@@ -45,7 +46,7 @@ export default Component.extend(ThemedComponent, {
     return this.get('type') === 'password';
   }),
   type: "text",
-  isMemo: computed.equal('type', 'memo'),
+  isMemo: equal('type', 'memo'),
   error: false,
   errorString: computed('error', 'showErrors', function () {
     if ( this.get("showErrors") ) {
@@ -63,8 +64,8 @@ export default Component.extend(ThemedComponent, {
   monospace: false,
   classNames: [ 'selectable' ],
   classNameBindings: [ 'hasIcon:icon', 'monospace:monospace', 'hasText:has-text:no-text', 'focused:focused:not-focused', 'hasLabel:has-label:no-label', 'hasError:has-error:no-error', 'type' ],
-  hasText: computed.bool('value'),
-  hasLabel: computed.bool('label'),
+  hasText: bool('value'),
+  hasLabel: bool('label'),
   description: "",
   focusedDescriptionProperty: "",
   rows: 1,

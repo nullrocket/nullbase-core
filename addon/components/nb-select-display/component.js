@@ -1,5 +1,10 @@
 /* global $ */
-import Ember from 'ember';
+import { run, scheduleOnce } from '@ember/runloop';
+
+import { computed } from '@ember/object';
+import { equal, bool } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
 import layout from './template';
 import ThemedComponent from 'nullbase-core/mixins/nb-themed-component';
 
@@ -21,8 +26,8 @@ var uniqID = {
 
   }
 };
-export default Ember.Component.extend(ThemedComponent, {
-  gestures: Ember.inject.service(),
+export default Component.extend(ThemedComponent, {
+  gestures: service(),
   layout: layout,
 
   _themeProperties: [
@@ -40,9 +45,9 @@ export default Ember.Component.extend(ThemedComponent, {
   ],
   tagName: 'nb-select-display',
   type: "text",
-  isMemo: Ember.computed.equal('type', 'memo'),
+  isMemo: equal('type', 'memo'),
   error: false,
-  errorString: Ember.computed('error', function () {
+  errorString: computed('error', function () {
     if ( this.get("showErrors") ) {
       if ( _.isString(this.get('error')) ) {
         return this.get('error');
@@ -60,14 +65,14 @@ export default Ember.Component.extend(ThemedComponent, {
   classNames: [],
   classNameBindings: [ 'hasIcon:icon', 'monospace:monospace', 'hasText:has-text:no-text', 'focused:focused:not-focused', 'hasLabel:has-label:no-label', 'hasError:has-error:no-error' ],
 
-  hasText: Ember.computed.bool('value'),
-  hasLabel: Ember.computed.bool('label'),
+  hasText: bool('value'),
+  hasLabel: bool('label'),
   description: "",
   focusedDescriptionProperty: "",
-  hasError: Ember.computed('error', 'showErrors', function () {
+  hasError: computed('error', 'showErrors', function () {
     return (this.get('error') && this.get('error').length && this.get('showErrors'));
   }),
-  hasIcon: Ember.computed('icon', function () {
+  hasIcon: computed('icon', function () {
     return this.get('icon') !== '';
   }),
   icon: "",
@@ -76,7 +81,7 @@ export default Ember.Component.extend(ThemedComponent, {
   actions: {
 
   },
-  inputClasses: Ember.computed('inputClass', function () {
+  inputClasses: computed('inputClass', function () {
     var used = (this.get('value') || (this.get('isMemo') && this.get('readonly'))) ? ' used' : '';
     return this.get('inputClass') + used;
   }),
@@ -96,7 +101,7 @@ export default Ember.Component.extend(ThemedComponent, {
     let gestures = this.get('gestures');
 
     this.get('element').getElementsByClassName('select-display')[0].addEventListener('blur', function () {
-      Ember.run(function () {
+      run(function () {
         self.set('focusedDescriptionProperty', "");
         self.set('focused', false);
 
@@ -114,7 +119,7 @@ export default Ember.Component.extend(ThemedComponent, {
 
     });
     this.get('element').getElementsByClassName('select-display')[0].addEventListener('focus', function () {
-      Ember.run(function () {
+      run(function () {
         self.set('focusedDescriptionProperty', self.get('description'));
         self.set('focused', true);
 
@@ -140,7 +145,7 @@ export default Ember.Component.extend(ThemedComponent, {
       e.stopImmediatePropagation();
     };
 
-    Ember.run.scheduleOnce('afterRender', function () {
+    scheduleOnce('afterRender', function () {
       if ( self.get('element').getElementsByClassName('icon')[0] ) {
         gestures.addEventListener(self.get('element').getElementsByClassName('icon')[0], 'down', self._down);
         gestures.addEventListener(self.get('element').getElementsByClassName('icon')[0], 'up', self._up);

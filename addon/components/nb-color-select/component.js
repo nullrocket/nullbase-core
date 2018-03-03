@@ -1,4 +1,6 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
 import layout from './template';
 import ThemedComponent from 'nullbase-core/mixins/nb-themed-component';
 import max from "lodash/max";
@@ -7,7 +9,6 @@ import merge from 'lodash/merge';
 import find from 'lodash/find';
 import extend from 'lodash/extend';
 import createFocusTrap from "nullbase-core/utils/focus-trap";
-const { computed } = Ember;
 function topZIndex() {
 
   return max(map(document.querySelectorAll('*'), function ( el ) {
@@ -17,10 +18,10 @@ function topZIndex() {
 
   }));
 }
-export default Ember.Component.extend(ThemedComponent, {
+export default Component.extend(ThemedComponent, {
   layout,
   menuIcon: "menu-down-grey",
-  gestures: Ember.inject.service(),
+  gestures: service(),
   classNames: [ 'nb-color-select' ],
   parentFocusTrap: null,
   icon: "",
@@ -374,7 +375,7 @@ export default Ember.Component.extend(ThemedComponent, {
 
     }
   },
-  display: Ember.computed('value', function () {
+  display: computed('value', function () {
     let selectedOption = find(this.get('options'), { value: this.get('value') });
 
     if ( selectedOption ) {

@@ -1,7 +1,5 @@
 
 
-import Ember from "ember";
-
 var DialogManager = {};//Ember.Component.extend({
 
 

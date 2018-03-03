@@ -1,16 +1,18 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
 import layout from './template';
 import ThemedComponent from 'nullbase-core/mixins/nb-themed-component';
 
 
-export default Ember.Component.extend(ThemedComponent, {
+export default Component.extend(ThemedComponent, {
     layout,
-    gestures: Ember.inject.service(),
+    gestures: service(),
     tagName: "button",
     classNames: [ 'nb-fab-main-button' ],
     classNameBindings: [ 'disabled:disabled', 'type', 'size', "pressed:pressed" ],
     pressed: false,
-    elevation: Ember.computed('pressed',
+    elevation: computed('pressed',
         function () {
 
                 if ( this.get('pressed') ) {
@@ -32,7 +34,7 @@ export default Ember.Component.extend(ThemedComponent, {
     type: "normal",//"flat-text" , "raised-text", "flat-icon", "raised-icon"
     icon: "",
     activeIcon:"",
-    currentIcon:Ember.computed('active',function(){
+    currentIcon:computed('active',function(){
        return this.get('active')? this.get('activeIcon') :this.get("icon");
     }),
     keyPress( e ) {

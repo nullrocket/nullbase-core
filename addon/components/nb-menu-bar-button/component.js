@@ -7,7 +7,9 @@ import merge from "lodash/merge";
 export default NbButton.extend({
   menu: '',
   childMenu: null,
-
+  classNames:['nb-menu-bar-button'],
+  classNameBindings:['open'],
+  open:false,
   actions: {
     tap() {
 
@@ -28,6 +30,7 @@ export default NbButton.extend({
     }
   },
   willDestroyElement() {
+
     this.get('menuManager.actionHandler').send('remove', this.get('childMenu'));
     this._super(...arguments);
 

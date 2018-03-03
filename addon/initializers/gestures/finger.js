@@ -8,7 +8,7 @@
  */
 export default {};
 import eventFactory from './eventFactory';
-import {targetFinding} from "./targetfind";
+import { targetFinding } from "./targetfind";
 
 function extract(args) {
   let remain = [];

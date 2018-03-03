@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
 import layout from './template';
 
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
   classNames: [ 'nb-color-select-option', 'item' ],
   classNameBindings: [ 'hover' ,'value'],
@@ -10,7 +11,7 @@ export default Ember.Component.extend({
   touchAction: 'pan',
   tabindex: 0,
   hover: false,
-  gestures: Ember.inject.service(),
+  gestures: service(),
   icon: "check-white",
   hoverIcon: "check-white",
   actions: {

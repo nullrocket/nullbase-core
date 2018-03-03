@@ -9,7 +9,7 @@
 
 import dispatcher from './dispatcher';
 import mouseEvents from './mouse';
-import {targetFinding,findTarget} from "./targetfind";
+import { targetFinding, findTarget } from "./targetfind";
 
 
 var allShadows = targetFinding.allShadows.bind(targetFinding);

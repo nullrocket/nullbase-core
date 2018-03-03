@@ -1,7 +1,7 @@
 
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import ThemeHandlerMixin from 'nullbase-core/mixins/nullbase-theme-handler';
-var ThemeHandler = Ember.Object.extend(ThemeHandlerMixin, {
+var ThemeHandler = EmberObject.extend(ThemeHandlerMixin, {
 
   className: 'nb-select',
   _insertedStyles: [],

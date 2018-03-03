@@ -1,7 +1,11 @@
 
 import Ember from 'ember';
 
-import {default as dispatcher,addEventListener as _add ,removeEventListener as _remove} from './gestures/dispatcher';
+import {
+  default as dispatcher,
+  addEventListener as _add,
+  removeEventListener as _remove
+} from './gestures/dispatcher';
 import platformEvents from './gestures/platform-events';
 import tap from './gestures/tap';
 import track from './gestures/track';

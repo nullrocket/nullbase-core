@@ -1,17 +1,18 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 import layout from './template';
 import ThemedComponent from 'nullbase-core/mixins/nb-themed-component';
 
 
 
-export default Ember.Component.extend(ThemedComponent, {
+export default Component.extend(ThemedComponent, {
   tagName:'div',
   classNames:["nb-panel","container-fluid"],
   classNameBindings:["paddingLeft","paddingRight","paddingBottom","paddingTop"],
   layout,
 
 
-  paddingLeft:Ember.computed('attrs.padding-left',function(){
+  paddingLeft:computed('attrs.padding-left',function(){
     if(this.get('attrs.padding-left')) {
       return 'padding-left-' + this.get('attrs.padding-left');
     }
@@ -19,7 +20,7 @@ export default Ember.Component.extend(ThemedComponent, {
       return "";
     }
   }),
-  paddingRight:Ember.computed('attrs.padding-right',function(){
+  paddingRight:computed('attrs.padding-right',function(){
     if(this.get('attrs.padding-right')) {
       return 'padding-right-' + this.get('attrs.padding-right');
     }
@@ -27,7 +28,7 @@ export default Ember.Component.extend(ThemedComponent, {
       return ""
     }
   }),
-  paddingTop:Ember.computed('attrs.padding-top',function(){
+  paddingTop:computed('attrs.padding-top',function(){
     if(this.get('attrs.padding-top')) {
       return 'padding-top-' + this.get('attrs.padding-top');
     }
@@ -35,7 +36,7 @@ export default Ember.Component.extend(ThemedComponent, {
       return "";
     }
   }),
-  paddingBottom:Ember.computed('attrs.padding-bottom',function(){
+  paddingBottom:computed('attrs.padding-bottom',function(){
     if(this.get('attrs.padding-bottom')) {
       return 'padding-bottom-' + this.get('attrs.padding-bottom');
     }
