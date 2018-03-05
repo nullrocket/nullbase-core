@@ -18,8 +18,15 @@ function aRAF(){
 
       let childViewComponent = childComponents[i%childViewLength];
       if ( childViewComponent && !childViewComponent.get('isDestroyed') ) {
-        childViewComponent.get('element').style[ "transform" ] = 'translate3d(0px, ' + (i * itemHeight) + 'px, 0) scale(1)';
         childViewComponent.set(itemContentProperty, items[ i ]);
+        let element = childViewComponent.get('element');
+        window.requestAnimationFrame(function(){
+          if(element) {
+            element.style[ "transform" ] = 'translate3d(0px, ' + (i * itemHeight) + 'px, 0) scale(1)';
+          }
+        });
+
+
       }
     }
 
@@ -77,8 +84,9 @@ export default NBScrollPanel.extend({
       let childViewLength = this.get('childComponentsX').length;
       let loopCounterCache = Math.min(firstInView + childViewLength, itemCount);
       this._args = [this, itemHeight, this.get('itemContentProperty'), this.get('items'), firstInView, childViewLength, loopCounterCache];
-      this.get('_AFQ_VIRTUAL_LIST').clear();
-      this.get('_AFQ_VIRTUAL_LIST').add(this._raf);
+   //   this.get('_AFQ_VIRTUAL_LIST').clear();
+    //  this.get('_AFQ_VIRTUAL_LIST').add(this._raf);
+      this._raf();
       //window.requestAnimationFrame(this._raf);
 
     }

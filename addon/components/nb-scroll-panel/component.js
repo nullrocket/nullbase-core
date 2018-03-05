@@ -138,6 +138,7 @@ export default Component.extend({
 
 
   useNativeScrollDidChange: observer('useNativeScroll', 'dragWithNativeScroll', function () {
+
     once(this, this.processUseNativeScrollDidChange)
   }),
 
@@ -304,6 +305,7 @@ export default Component.extend({
       let _raf2 = () => {
         element.scrollTop = self._rafArgs[ 1 ];
         element.scrollLeft = self._rafArgs[ 0 ]
+        self._onNativeRender(self._rafArgs[ 0 ], self._rafArgs[ 1 ]);
       };
 
       scroller._callback = function ( scrollLeft, scrollTop /*, zoom*/ ) {
@@ -319,7 +321,7 @@ export default Component.extend({
           //window.requestAnimationFrame(_raf2);
           self.get('_AFQ_SCROLL_PANEL').add(_raf2);
 
-          self._onNativeRender(scrollLeft, scrollTop);
+          //self._onNativeRender(scrollLeft, scrollTop);
 
 
         }
@@ -333,7 +335,7 @@ export default Component.extend({
 
         self._down = function ( e ) {
 
-          self.get('scroller').scrollTo(element.scrollLeft, element.scrollTop);
+       //   self.get('scroller').scrollTo(element.scrollLeft, element.scrollTop);
           if ( self && scroller && !mousedown ) {
             if ( e.target.tagName.match(/input|textarea|select/i) ) {
               return;
