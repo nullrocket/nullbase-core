@@ -15,6 +15,7 @@ function aRAF(){
   let childComponents = self ? self.get('childComponentsX') : undefined;
   if ( childComponents && childComponents.length ) {
     for ( let i = firstInView; i < loopCounterCache; i++ ) {
+
       let childViewComponent = childComponents[i%childViewLength];
       if ( childViewComponent && !childViewComponent.get('isDestroyed') ) {
         childViewComponent.get('element').style[ "transform" ] = 'translate3d(0px, ' + (i * itemHeight) + 'px, 0) scale(1)';
@@ -71,7 +72,8 @@ export default NBScrollPanel.extend({
       let height = this.get('height');
       let howManyInWindow = Math.ceil(height / itemHeight);
       let howManyExtra = Math.min(itemCount - howManyInWindow, 100);
-      let firstInView = ((Math.floor(scrollTop / itemHeight)) > 0) ? (Math.floor(scrollTop / itemHeight) - Math.ceil(howManyExtra / 2)) : 0;
+      let firstInView = ((Math.floor(scrollTop / itemHeight)) >= 1) ? (Math.floor(scrollTop / itemHeight) - Math.ceil(howManyExtra / 2)) : 0;
+
       let childViewLength = this.get('childComponentsX').length;
       let loopCounterCache = Math.min(firstInView + childViewLength, itemCount);
       this._args = [this, itemHeight, this.get('itemContentProperty'), this.get('items'), firstInView, childViewLength, loopCounterCache];
