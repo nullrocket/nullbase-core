@@ -260,6 +260,48 @@ let members = {
   _decelerationVelocityY: null,
 
 
+  stopMoving:function(){
+
+
+    // Reset interruptedAnimation flag
+    this._interruptedAnimation = true;
+
+    // Stop deceleration
+    if ( this._isDecelerating ) {
+      core.effect.Animate.stop(this._isDecelerating);
+      this._isDecelerating = false;
+      this._interruptedAnimation = true;
+    }
+
+    // Stop animation
+    if ( this._isAnimating ) {
+      core.effect.Animate.stop(this._isAnimating);
+      this._isAnimating = false;
+      this._interruptedAnimation = true;
+    }
+
+
+
+    // Reset locking flags
+    //this._enableScrollX = !isSingleTouch && this.options.scrollingX;
+    //this._enableScrollY = !isSingleTouch && this.options.scrollingY;
+
+    // Reset tracking flag
+    this._isTracking = false;
+
+    // Reset deceleration complete flag
+ //   this._didDecelerationComplete = false;
+
+    // Dragging starts directly with two fingers, otherwise lazy with an offset
+    this._isDragging = false;
+
+    // Some features are disabled in multi touch scenarios
+  //  this._isSingleTouch = true;
+
+    // Clearing data structure
+  //  this._positions = [];
+  },
+
   /*
    ---------------------------------------------------------------------------
    PUBLIC API

@@ -12,10 +12,11 @@
   background: transparent;
   will-change: transform;
   transform: translate3d(0px, 0px, 0.1px);
-
+  overflow-y:hidden;
+  overflow-x:hidden;
   .scroll-panel-content {
     -webkit-overflow-scrolling: touch;
-    overflow: visible;;
+    overflow: visible;
     box-sizing: border-box;
     backface-visibility: hidden;
     position: relative;
@@ -138,9 +139,10 @@
 }
 
 .scroll-panel-native {
-  overflow-y: scroll;
+  overflow-y:hidden;
   overflow-x:scroll;
   &.show-vscroll-bar {
+    overflow-y:scroll;
     > .vertical-scrollbar {
       display: none;
     }

@@ -8,9 +8,13 @@ export default Mixin.create(SpreadMixin, {
   delayedProp:null,
   didInsertElement: function () {
   //  this.set('parentER', this.get('parentView.childComponentsX'));
-
-    this._super(...arguments);
-    this.get('parentView.childComponentsX').pushObject(this);
+try {
+  this._super(...arguments);
+  this.get('parentView.childComponentsX').pushObject(this);
+}
+catch(e){
+  console.log(e)
+}
 /*
     this.get('intersection').observe(this.get('element'));
     let self = this;
@@ -25,10 +29,14 @@ export default Mixin.create(SpreadMixin, {
   },
   willDestroyElement: function () {
   //  if ( this.get('parentER') ) {
-
-      this.get('parentView.childComponentsX').removeObject(this);
- //   }
-    this._super(...arguments);
+try {
+  this.get('parentView.childComponentsX').removeObject(this);
+  //   }
+  this._super(...arguments);
+}
+catch(e){
+  console.log(e);
+}
   }
 
 });
