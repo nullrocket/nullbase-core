@@ -1,5 +1,5 @@
 import Mixin from '@ember/object/mixin';
-import { computed } from "@ember/object"
+import { computed,trySet } from "@ember/object"
 import { inject as service } from '@ember/service';
 import ThemedComponent from 'nullbase-core/mixins/nb-themed-component';
 import { once } from "@ember/runloop";
@@ -127,7 +127,9 @@ export default Mixin.create(ThemedComponent, {
           self.beforeTap(event);
           self.send("tap", event);
         }
-        self.set('_tracking',false);
+        if(!self.get('isDestroyed')) {
+          trySet(self, '_tracking', false);
+        }
       }
     };
 
@@ -244,21 +246,28 @@ export default Mixin.create(ThemedComponent, {
     });
 
     element.addEventListener('focusout',function(){
+      if(!self.get('isDestroyed')) {
+        trySet(self, 'focus', false);
+      }
 
-        self.set('focus', false);
 
     });
 
     element.dataset.wiggle = 200;
     this._trackend = function(e){
 
-      self.set('_tracking',true);
+      if(!self.get('isDestroyed')) {
+        trySet(self, '_tracking', false);
+      }
+
 
     }
     gestures.addEventListener(element,'trackend',this._trackstart);
     this._trackstart=function(e){
+      if(!self.get('isDestroyed')) {
+        trySet(self, '_tracking', true);
+      }
 
-      self.set('_tracking',true);
 
     };
     gestures.addEventListener(element,'trackstart',this._trackstart);

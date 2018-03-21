@@ -59,15 +59,19 @@ export default Component.extend(ThemedComponent, TreeViewItemMixin, {
 
 
     this._mouseenter =  function () {
-      self.set('hover', true);
+      if(!self.get("isDestroyed")) {
+        self.set('hover', true);
+      }
     };
     this.get('element').addEventListener('mouseenter',this._mouseenter);
 
     this._mouseleave =  function () {
-      self.set('hover', false);
+      if(!self.get('isDestroyed')) {
+        self.set('hover', false);
+      }
     };
     this.get('element').addEventListener('mouseleave',this._mouseleave);
-    console.log('height',this.get('open'),self.get('element').scrollHeight);
+
     self.get('parentView').adjustHeight(this.get('open'),  self.get('element').scrollHeight);
   }
 });

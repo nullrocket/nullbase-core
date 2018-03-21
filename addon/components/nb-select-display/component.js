@@ -103,6 +103,7 @@ export default Component.extend(ThemedComponent, {
     this.get('element').getElementsByClassName('select-display')[0].addEventListener('blur', function () {
       run(function () {
         self.set('focusedDescriptionProperty', "");
+        if(!self.get('isDestroyed'))
         self.set('focused', false);
 
         self.get('element').getElementsByClassName('bottom-bar')[0].classList.remove('focused');

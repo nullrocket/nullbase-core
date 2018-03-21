@@ -176,8 +176,9 @@ export default Component.extend({
       // remove javascript scrolling and set up native scrolling.
 
 
-
-        self.set('scrollBar', false);
+        if(!self.get('isDestroyed')) {
+          self.set('scrollBar', false);
+        }
 
 
         let _raf2 = () => {
@@ -273,8 +274,10 @@ export default Component.extend({
         }
         let contentHeight = contentElement.offsetHeight;// element.getElementsByClassName('scroll-panel-content')[ 0 ].offsetHeight;
         let contentWidth = contentElement.offsetWidth;
-        self.set('contentHeight', contentHeight);
-        self.set('contentWidth', contentWidth);
+        if(!self.get('isDestroyed')) {
+          self.set('contentHeight', contentHeight);
+          self.set('contentWidth', contentWidth);
+        }
         let contentWidthOffset = this.get('_showVerticalScrollbar') ? 15 : 0;
         self.get('scroller').setDimensions(self.get('width'), self.get('height'), contentWidth + contentWidthOffset, contentHeight + 15);
 
@@ -426,12 +429,12 @@ export default Component.extend({
         let element = this.get('element');
         let contentElement = this.get('contentElement');
         once(this, function () {
-
-            this.set('height', force ? element.offsetHeight + 1 : element.offsetHeight);
-            this.set('width', element.offsetWidth);
-            this.set('contentHeight', force ? contentElement.offsetHeight + 1 : contentElement.offsetHeight);
-            this.set('contentWidth', contentElement.offsetWidth);
-
+            if(!this.get('isDestroyed')) {
+              this.set('height', force ? element.offsetHeight + 1 : element.offsetHeight);
+              this.set('width', element.offsetWidth);
+              this.set('contentHeight', force ? contentElement.offsetHeight + 1 : contentElement.offsetHeight);
+              this.set('contentWidth', contentElement.offsetWidth);
+            }
         })
       }
 

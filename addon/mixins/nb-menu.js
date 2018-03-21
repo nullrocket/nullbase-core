@@ -18,7 +18,7 @@ export default Mixin.create(SpreadMixin, {
   },
 
   willDestroy: function () {
-    var self = this;
+
     let gestures = this.get('gestures');
     gestures.removeEventListener($('body').get(0), 'down', this._bodyDown);
 
@@ -43,23 +43,26 @@ export default Mixin.create(SpreadMixin, {
     remove: function () {
       this.$().removeClass('show');
       this.$('.nb-menu').removeClass('show');
-      var self = this;
 
-      this.get('focusTrap').deactivate();
+      if(this.get('focusTrap')) {
+        this.get('focusTrap').deactivate();
+      }
       //  setTimeout(function () {
-      self.get('menuManager.actionHandler').send('remove', self)
+      this.get('menuManager.actionHandler').send('remove', this)
       //   }, 175);
 
     },
     show: function () {
-      var self = this;
+
       later(this, function () {
         //      this.$().addClass('show');
         var focusTrap = createFocusTrap(this.get('tetherObject').element,{
           initialFocus:this.get('tetherObject').element
         });
-        this.set('focusTrap', focusTrap);
-        focusTrap.activate();
+        if(!this.get("isDestroyed")) {
+          this.set('focusTrap', focusTrap);
+          focusTrap.activate();
+        }
       }, 1);
 
 

@@ -46,10 +46,16 @@ export default Component.extend({
 
     this.get("gestures").addEventListener(this.get("element"), 'down', this._down);
     this.$().on('mouseenter', function () {
-      self.set('hover', true);
+      if(!self.get('isDestroyed')) {
+        self.set('hover', true);
+      }
     });
     this.$().on('mouseleave', function () {
-      self.set('hover', false);
+      if(!self.get("isDestroyed"))
+      {
+        self.set('hover', false);
+      }
+
     });
     this._tap = function ( event ) {
 
@@ -90,10 +96,14 @@ export default Component.extend({
 
 
     this.$().on('focusin', function () {
-      self.set('focused', true);
+      if(!self.get('isDestroyed')) {
+        self.set('focused', true);
+      }
     });
     this.$().on('focusout', function () {
-      self.set('focused', false)
+      if(!self.get("isDestroyed")) {
+        self.set('focused', false)
+      }
     });
 
 

@@ -4,8 +4,8 @@ import ThemedComponent from 'nullbase-core/mixins/nb-themed-component';
 import TreeViewItemMixin from 'nullbase-core/mixins/nb-tree-view-item';
 import layout from './template';
 import {on} from "@ember/object/evented";
-import {once} from "@ember/runloop";
-import {computed, observer} from "@ember/object";
+import {once,run} from "@ember/runloop";
+import {computed, observer,trySet} from "@ember/object";
 import {inject} from "@ember/service";
 
 
@@ -32,6 +32,7 @@ export default Component.extend(ThemedComponent, TreeViewItemMixin, {
   openIcon: 'menu-right-grey',
   closedIcon: 'menu-right-grey',
   icon: 'checkbox-blank-grey',
+  expandtOnTap:true,
   _tracking: false,
   actions: {
     tap( e ) {
@@ -49,7 +50,7 @@ export default Component.extend(ThemedComponent, TreeViewItemMixin, {
 
 
     if ( self.get('open') ) {
-      console.log('upstream', open, (open ? adjustAmount : -adjustAmount),self.get('element').querySelectorAll('.sub-items.' + self.get('_uniqueClassName'))[ 0 ].scrollHeight, this.get('element'),from);
+
       self.get('element').querySelectorAll('.sub-items.' + self.get('_uniqueClassName'))[ 0 ].style.height = (open ? adjustAmount : -adjustAmount) + self.get('element').querySelectorAll('.sub-items.' + self.get('_uniqueClassName'))[ 0 ].scrollHeight + 'px';
       self.get('parentView').adjustHeight(self.get('open'), (open ? adjustAmount : -adjustAmount),this.get('element'));
     }
@@ -87,33 +88,49 @@ export default Component.extend(ThemedComponent, TreeViewItemMixin, {
 
 
   },
+  _onClickExpand:null,
   processTreeViewItemsDidChange() {
 
     let gestures = this.get('gestures');
     let self = this;
     if ( (self.get('treeViewItems.length') && this.get('element').querySelectorAll('.indicator-icon.' + this.get('_uniqueClassName'))[ 0 ] ) || self.get('hasBlock') ) {
+      if(this._onClickExpand === null){
+        this._onClickExpand = function ( e ) {
+
+          e.stopPropagation();
+
+          self.set('open', !self.get('open'));
 
 
-      gestures.addEventListener(this.get('element').querySelectorAll('.indicator-icon.' + this.get('_uniqueClassName'))[ 0 ], 'tap', function ( e ) {
-        e.stopPropagation();
+        };
+      }
+      else {
+        gestures.removeEventListener(this.get('element').querySelectorAll('.indicator-icon.' + this.get('_uniqueClassName'))[ 0 ], 'tap', this._onClickExpand);
+      }
 
-        self.set('open', !self.get('open'));
 
-
-      });
+      gestures.addEventListener(this.get('element').querySelectorAll('.indicator-icon.' + this.get('_uniqueClassName'))[ 0 ], 'tap', this._onClickExpand);
 
     }
+
   },
   willDestroyElement() {
     this._super(...arguments);
 
     let itemElement = this.get('element').querySelectorAll('.item.' + this.get('_uniqueClassName'))[ 0 ];
+    let self = this;
     if ( itemElement ) {
       this.get('gestures').removeEventListener(itemElement, 'tap', this._tap);
       this.get('gestures').removeEventListener(itemElement, 'trackend', this._trackend);
       this.get('gestures').removeEventListener(itemElement, 'trackstart', this._trackstart);
       itemElement.removeEventListener('mouseenter', this._mouseenter);
       itemElement.removeEventListener('mouseleave', this._mouseleave);
+      if ( (self.get('treeViewItems.length') && this.get('element').querySelectorAll('.indicator-icon.' + this.get('_uniqueClassName'))[ 0 ] ) || self.get('hasBlock') ) {
+        if ( this._onClickExpand !== null ) {
+          this.get('gestures').removeEventListener(this.get('element').querySelectorAll('.indicator-icon.' + this.get('_uniqueClassName'))[ 0 ], 'tap', this._onClickExpand);
+        }
+
+      }
     }
 
   },
@@ -128,38 +145,58 @@ export default Component.extend(ThemedComponent, TreeViewItemMixin, {
 
       this._tap = function ( e ) {
         if ( !self.get('_tracking') ) {
+          run(()=>{
+            if(self.get('expandOnTap')) {
+              self.set('open', !self.get('open'));
 
-          self.send("tap", e);
+            }
+            else {
+              self.send("tap", e)
+
+            }
+          })
+
+       /*   ;*/
         }
 
-        self.set('_tracking', false);
+        if(!self.get('isDestroyed')) {
+          trySet(self, '_tracking', false);
+        }
 
       };
       gestures.addEventListener(itemElement, 'tap', this._tap);
 
       this._trackend = function ( e ) {
 
-        self.set('_tracking', false);
+        if(!self.get('isDestroyed')) {
+          trySet(self, '_tracking', false);
+        }
 
       };
 
       gestures.addEventListener(itemElement, 'trackend', this._trackend);
 
       this._trackstart = function ( e ) {
-
-        self.set('_tracking', true);
+        if(!self.get('isDestroyed')) {
+          trySet(self, '_tracking', true);
+        }
 
       };
       gestures.addEventListener(itemElement, 'trackstart', this._trackstart);
 
       this._mouseenter = function (e) {
+        if(!self.get('isDestroyed')) {
+          trySet(self, 'hover', true);
+        }
 
-        self.set('hover', true);
       };
       itemElement.addEventListener('mouseenter', this._mouseenter);
 
       this._mouseleave = function () {
-        self.set('hover', false);
+        if(!self.get('isDestroyed')) {
+          trySet(self, 'hover', false);
+        }
+
       };
       itemElement.addEventListener('mouseleave', this._mouseleave);
     }

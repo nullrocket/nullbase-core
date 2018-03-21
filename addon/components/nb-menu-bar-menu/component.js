@@ -104,7 +104,9 @@ export default Component.extend({
         callback();
         later(function () {
           $(self.get('element')).addClass('show');
-          self.get('options.owner').set('open', true);
+          if(!self.get('isDestroyed')) {
+            self.get('options.owner').set('open', true);
+          }
 
 
         }, 30);

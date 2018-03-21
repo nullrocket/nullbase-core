@@ -29,14 +29,11 @@ catch(e){
   },
   willDestroyElement: function () {
   //  if ( this.get('parentER') ) {
-try {
+
   this.get('parentView.childComponentsX').removeObject(this);
   //   }
   this._super(...arguments);
-}
-catch(e){
-  console.log(e);
-}
+
   }
 
 });

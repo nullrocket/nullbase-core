@@ -36,9 +36,9 @@ export default Component.extend(CheckBoxBase, {
     }
 
   }),
-  checkedIcon: "checkbox-marked-grey",
-  uncheckedIcon: "checkbox-blank-outline-grey",
-  maybeCheckedIcon: "minus-box-grey",
+  checkedIcon: "checkbox-marked-grey600",
+  uncheckedIcon: "checkbox-blank-outline-grey600",
+  maybeCheckedIcon: "minus-box-grey600",
   _currentIcon: computed('uncheckedIcon', 'checkedIcon', 'maybeCheckedIcon', 'checked', function () {
     return this.get('checked') ? this.get('checkedIcon') : this.get('checked') != null ? this.get('uncheckedIcon') : this.get('maybeCheckedIcon');
   }),
