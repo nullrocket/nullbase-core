@@ -2,13 +2,13 @@ import { computed } from '@ember/object';
 import Component from '@ember/component';
 import layout from './template';
 import ThemedComponent from 'nullbase-core/mixins/nb-themed-component';
-
+import isNumber from 'lodash/isNumber';
 
 
 export default Component.extend(ThemedComponent, {
   tagName:'div',
   classNames:["col"],
-  classNameBindings:["xs","md","sm","lg","paddingLeft","paddingRight","paddingBottom","paddingTop"],
+  classNameBindings:["xs","md","sm","lg","paddingLeft","paddingRight","paddingBottom","paddingTop","class"],
   layout,
   xs:computed('attrs.col-xs',function(){
     if(this.get('attrs.col-xs')) {
@@ -43,7 +43,7 @@ export default Component.extend(ThemedComponent, {
     }
   }),
   paddingLeft:computed('attrs.padding-left',function(){
-    if(this.get('attrs.padding-left')) {
+    if(isNumber(this.get('attrs.padding-left')) ) {
       return 'padding-left-' + this.get('attrs.padding-left');
     }
     else{
@@ -51,7 +51,7 @@ export default Component.extend(ThemedComponent, {
     }
   }),
   paddingRight:computed('attrs.padding-right',function(){
-    if(this.get('attrs.padding-right')) {
+    if(isNumber(this.get('attrs.padding-right')) ) {
       return 'padding-right-' + this.get('attrs.padding-right');
     }
     else{
@@ -59,7 +59,7 @@ export default Component.extend(ThemedComponent, {
     }
   }),
   paddingTop:computed('attrs.padding-top',function(){
-    if(this.get('attrs.padding-top')) {
+    if(isNumber(this.get('attrs.padding-top'))) {
       return 'padding-top-' + this.get('attrs.padding-top');
     }
     else{
@@ -67,7 +67,7 @@ export default Component.extend(ThemedComponent, {
     }
   }),
   paddingBottom:computed('attrs.padding-bottom',function(){
-    if(this.get('attrs.padding-bottom')) {
+    if(isNumber(this.get('attrs.padding-bottom'))) {
       return 'padding-bottom-' + this.get('attrs.padding-bottom');
     }
     else {

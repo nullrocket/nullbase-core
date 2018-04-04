@@ -13,16 +13,18 @@ export default Mixin.create(SpreadMixin, {
   focusTrap: null,
   init: function () {
     this._super(...arguments);
-    this.get('parentView.menuInstances').pushObject(this);
+    this.get('parentView.menus').pushObject(this);
     this.set('parentComponent', this.get('parentView'));
   },
 
-  willDestroy: function () {
+  willDestroyElement: function () {
 
     let gestures = this.get('gestures');
     gestures.removeEventListener($('body').get(0), 'down', this._bodyDown);
-
-    this.get('parentComponent.menuInstances').removeObject(this);
+//    console.log('before', this.get('parentComponent.menus'));
+//    this.get('parentComponent.menuInstances').removeObject(this);
+    this.get('parentComponent').send('remove',this);
+  //  console.log('after', this.get('parentComponent.menus'));
     this._super(...arguments);
   },
   parentComponent: null,

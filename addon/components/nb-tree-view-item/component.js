@@ -13,7 +13,11 @@ export default Component.extend(ThemedComponent, TreeViewItemMixin, {
 
   layout,
   gestures: inject(),
-  open: false,
+  open: computed('_open',function(){
+    return this.get('_open');
+  }),
+  _open:true,
+  openStateId:"",
   classNameBindings: [ 'open:open:closed', 'selected', 'hover' ],
   hover: false,
   expansionIndicatorIcon: computed('openIcon', 'closedIcon', 'open', 'treeViewItems', 'treeViewItems.[]', 'treeViewItems.length', function () {
@@ -34,6 +38,13 @@ export default Component.extend(ThemedComponent, TreeViewItemMixin, {
   icon: 'checkbox-blank-grey',
   expandtOnTap:true,
   _tracking: false,
+  init(){
+    this._super(...arguments);
+    if(this.get('openStateId')){
+      let openState = storage.get(this.get('openStateId'),true);
+      this.set('_open',openState);
+    }
+  },
   actions: {
     tap( e ) {
       this.sendAction('attrs.on-tap', ...arguments);
@@ -61,14 +72,16 @@ export default Component.extend(ThemedComponent, TreeViewItemMixin, {
 
 
   },
-  treeViewItemsDidChange: observer('treeViewItems', 'treeViewItems.[]', 'treeViewItems.length', function () {
+  treeViewItemsDidChange: observer('treeViewItems', 'treeViewItems.[]',  function () {
     once(this, this.processTreeViewItemsDidChange)
   }),
 
-  treeViewOpenDidChange: on('init', observer('open', 'treeViewItems', 'treeViewItems.[]', 'treeViewItems.length', function () {
+  treeViewOpenDidChange: on('init', observer('open',  function () {
 
     once(this, this.processTreeViewOpenDidChange);
   })),
+
+
   processTreeViewOpenDidChange() {
     let self = this;
 
@@ -99,7 +112,10 @@ export default Component.extend(ThemedComponent, TreeViewItemMixin, {
 
           e.stopPropagation();
 
-          self.set('open', !self.get('open'));
+          self.set('_open', !self.get('_open'));
+          if(self.get('openStateId')){
+            storage.set(self.get('openStateId'),self.get('_open'));
+          }
 
 
         };
@@ -147,7 +163,10 @@ export default Component.extend(ThemedComponent, TreeViewItemMixin, {
         if ( !self.get('_tracking') ) {
           run(()=>{
             if(self.get('expandOnTap')) {
-              self.set('open', !self.get('open'));
+              self.set('_open', !self.get('_open'));
+              if(self.get('openStateId')){
+                storage.set(self.get('openStateId'),self.get('_open'));
+              }
 
             }
             else {

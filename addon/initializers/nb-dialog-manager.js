@@ -17,7 +17,7 @@ export function initialize( application) {
   application.inject('route', 'dialogManager', 'dialogManager:main');
   application.inject('view', 'dialogManager', 'dialogManager:main');
   application.inject('component', 'dialogManager', 'dialogManager:main');
-
+  application.register('service:dialogManager', DialogManager, { instantiate: false });
   application.dialogManager = application.__container__.lookup('dialogManager:main');
 
 

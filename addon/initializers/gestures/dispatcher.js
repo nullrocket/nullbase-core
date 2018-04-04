@@ -288,7 +288,9 @@ let currentGestures;
    */
   makeEvent(inType, inEvent) {
     let e = eventFactory.makePointerEvent(inType, inEvent);
-    e.preventDefault = inEvent.preventDefault;
+
+    // Doug changed!!
+    //  e.preventDefault = inEvent.preventDefault;
     e.tapPrevented = inEvent.tapPrevented;
     e._target = e._target || inEvent.target;
     return e;

@@ -36,10 +36,10 @@ export default Component.extend(InboundAction, {
     this._super(...arguments);
     this.set('_uniqueClassName', uniqueClass());
     this.set('menus',A([]));
-    this.set('menuInstances',A([]));
+   // this.set('menuInstances',A([]));
   },
   menus:'',
-  menuInstances: '',
+  //menuInstances: '',
   classNames: [ 'menu-manager' ],
 
   actions: {
@@ -65,7 +65,7 @@ export default Component.extend(InboundAction, {
         }
       }
       catch ( e ) {
-      //  console.log(e);
+        console.log(e);
       }
       //   element.remove();
     },
@@ -85,7 +85,7 @@ export default Component.extend(InboundAction, {
       let menu = null;
 
       scheduleOnce('afterRender', function () {
-        menu = find(self.get('menuInstances'), function ( menu ) {
+        menu = find(self.get('menus'), function ( menu ) {
 
           return menu.get('menuID') === uniqId;
         });

@@ -1,19 +1,19 @@
 /* Uncomment and set these variables to customize the grid. */
-.generate-paddings(@n, @i: 1) when (@i =< @n) {
+.generate-paddings(@n, @i: 0) when (@i =< @n) {
   @num : (@i *2);
   &.padding-left-@{num} {
-    padding-left: unit(@num,px);
+    padding-left: unit(@num,px) !important;
   }
   &.padding-right-@{num} {
-    padding-right: unit(@num,px);
+    padding-right: unit(@num,px) !important;
   }
   &.padding-top-@{num} {
-    padding-top: unit(@num,px);
+    padding-top: unit(@num,px) !important;
   }
   &.padding-bottom-@{num} {
-    padding-bottom: unit(@num,px);
+    padding-bottom: unit(@num,px) !important;
   }
-  .generate-paddings(@n, (@i + 1));
+  .generate-paddings(@n, (@i + 1))
 }
 .container-fluid {
   margin-right: auto;

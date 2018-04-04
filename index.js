@@ -132,8 +132,14 @@ module.exports = {
             _.each(colors, function ( color ) {
               var temp = fse.readFileSync(file, "utf8");
 
-              temp = temp.replace(/(fill)[\s]*=[\s]*"[^"]+"|(fill)[\s]*=[\s]*\x27[^\']+\x27 | (fill)[\s]*=[\s]*[^\'\s]+/, ' fill="' + color.color + '" ')
+             temp = temp.replace(/(fill)[\s]*=[\s]*"[^"]+"|(fill)[\s]*=[\s]*\x27[^\']+\x27 | (fill)[\s]*=[\s]*[^\'\s]+/, ' fill="' + color.color + '" ')
               externalSVGFileContent += "." + path.basename(file, '.svg') + "-" + color.name + " { \n background-image: url('../nullbase-icons/" + path.basename(file, '.svg') + "-" + color.name + ".svg');\nbackground-repeat: no-repeat;\n background-size:contain;\n }\n\n";
+
+        //           temp = temp.replace(/(fill)[\s]*=[\s]*"[^"]+"|(fill)[\s]*=[\s]*\x27[^\']+\x27 | (fill)[\s]*=[\s]*[^\'\s]+/, ' fill="currentColor" ')
+         //          externalSVGFileContent += "." + path.basename(file, '.svg') + "-" + color.name + " > svg { \n background-image: url('../nullbase-icons/" + path.basename(file, '.svg') + "-" + color.name + ".svg');\nbackground-repeat: no-repeat;\n background-size:contain;\n color:"+color.color+";\n}\n\n";
+
+
+
               dataURIFileContent += "." + path.basename(file, '.svg') + "-" + color.name + " { \n background-image: url('data:image/svg+xml;charset=US-ASCII," + encodeURIComponent(temp) + "');\nbackground-repeat: no-repeat;\n background-size:contain;\n }\n\n";
 
               fse.ensureDirSync(self.publicDirectory);
