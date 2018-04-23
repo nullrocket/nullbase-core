@@ -23,7 +23,7 @@ function topZIndex() {
 }
 export default Component.extend(ThemedComponent, {
   layout,
-  menuIcon: "menu-down-grey",
+  menuIcon: ["menu-down","grey"],
   gestures: inject(),
   classNames: [ 'nb-select' ],
   parentFocusTrap: null,

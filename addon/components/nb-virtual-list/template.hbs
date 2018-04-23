@@ -1,5 +1,6 @@
 <div class="scroll-panel-content {{_uniqueClassName}}" touch-action="{{touchAction}}">
     {{#each renderedComponents as |item|}}
+
         {{component itemComponent touchAction=touchAction args=args options=args}}
     {{/each}}
 </div>

@@ -12,6 +12,7 @@ import AnimationFrameQueue from '../../utils/animation-frame-queue';
 
 function aRAF() {
 
+
     let [ self, itemHeight, itemContentProperty, items, firstInView, childViewLength, loopCounterCache ] = this.get('_args');
     let childComponents = self ? self.get('childComponentsX') : undefined;
     if ( childComponents && childComponents.length ) {
@@ -19,15 +20,22 @@ function aRAF() {
 
         let childViewComponent = childComponents[ i % childViewLength ];
         if ( childViewComponent && !childViewComponent.get('isDestroyed') ) {
-          childViewComponent.set(itemContentProperty, items[ i ]);
           let element = childViewComponent.get('element');
           window.requestAnimationFrame(function () {
 
-              if ( element ) {
-                element.style[ "transform" ] = 'translate3d(0px, ' + (i * itemHeight) + 'px, 0) scale(1)';
-              }
+            if ( element ) {
+              element.style[ "transform" ] = 'translate3d(0px, ' + (i * itemHeight) + 'px, 0) scale(1)';
+            }
+
 
           });
+
+
+          if(childViewComponent.get(itemContentProperty) !== items[i]) {
+
+            childViewComponent.set(itemContentProperty, items[ i ]);
+          }
+
 
 
         }
@@ -59,20 +67,22 @@ export default NBScrollPanel.extend({
   _AFQ_VIRTUAL_LIST: null,
   _onRender( scrollLeft, scrollTop ) {
 
-    if ( !this.get('isDestroyed') && isFinite(scrollTop) ) {
-      this.set('scrollTop', scrollTop);
-      let itemHeight = this.get('itemHeight');
-      let itemCount = this.get('items') ? this.get('items').length : 0;
-      let height = this.get('height');
-      let howManyInWindow = Math.ceil(height / itemHeight);
-      let howManyExtra = Math.min(itemCount - howManyInWindow, 100);
-      let firstInView = ((Math.floor(scrollTop / itemHeight)) > 0) ? (Math.floor(scrollTop / itemHeight) - Math.ceil(howManyExtra / 2)) : 0;
-      let childViewLength = this.get('childComponentsX').length;
-      let loopCounterCache = Math.min(firstInView + childViewLength, itemCount);
-      this.get('_AFQ_VIRTUAL_LIST').clear();
-      this._args = [ this, itemHeight, this.get('itemContentProperty'), this.get('items'), firstInView, childViewLength, loopCounterCache ];
-      this.get('_AFQ_VIRTUAL_LIST').add(this._raf);
-    }
+      if ( !this.get('isDestroyed') && isFinite(scrollTop) ) {
+        this.set('scrollTop', scrollTop);
+        let itemHeight = this.get('itemHeight');
+        let itemCount = this.get('items') ? this.get('items').length : 0;
+        let height = this.get('height');
+
+        let howManyInWindow = Math.ceil(height / itemHeight);
+        let howManyExtra = Math.min(itemCount - howManyInWindow, 100);
+        let firstInView = ((Math.floor(scrollTop / itemHeight)) > 0) ? (Math.floor(scrollTop / itemHeight) - Math.ceil(howManyExtra / 2)) : 0;
+        let childViewLength = this.get('childComponentsX').length;
+        let loopCounterCache = Math.min(firstInView + childViewLength, itemCount);
+        //   this.get('_AFQ_VIRTUAL_LIST').clear();
+        this._args = [ this, itemHeight, this.get('itemContentProperty'), this.get('items'), firstInView, childViewLength, loopCounterCache ];
+        //   this.get('_AFQ_VIRTUAL_LIST').add(this._raf);
+        once(this, this._raf);
+      }
 
 
   },
@@ -83,17 +93,20 @@ export default NBScrollPanel.extend({
         let itemHeight = this.get('itemHeight');
         let itemCount = this.get('items') ? this.get('items').length : 0;
         let height = this.get('height');
-        let howManyInWindow = Math.ceil(height / itemHeight);
-        let howManyExtra = Math.min(itemCount - howManyInWindow, 100);
-        let firstInView = ((Math.floor(scrollTop / itemHeight)) >= 1) ? (Math.floor(scrollTop / itemHeight) - Math.ceil(howManyExtra / 2)) : 0;
+        if ( height && this.get('width') && itemCount) {
+          let howManyInWindow = Math.ceil(height / itemHeight);
+          let howManyExtra = Math.min(itemCount - howManyInWindow, 100);
+          let firstInView = ((Math.floor(scrollTop / itemHeight)) >= 1) ? (Math.floor(scrollTop / itemHeight) - Math.ceil(howManyExtra / 2)) : 0;
 
-        let childViewLength = this.get('childComponentsX').length;
-        let loopCounterCache = Math.min(firstInView + childViewLength, itemCount);
-        this._args = [ this, itemHeight, this.get('itemContentProperty'), this.get('items'), firstInView, childViewLength, loopCounterCache ];
-        //   this.get('_AFQ_VIRTUAL_LIST').clear();
-        //  this.get('_AFQ_VIRTUAL_LIST').add(this._raf);
-        this._raf();
-        //window.requestAnimationFrame(this._raf);
+          let childViewLength = this.get('childComponentsX').length;
+          let loopCounterCache = Math.min(firstInView + childViewLength, itemCount);
+          this._args = [ this, itemHeight, this.get('itemContentProperty'), this.get('items'), firstInView, childViewLength, loopCounterCache ];
+
+        //  once(this,this._raf);
+          this._raf();
+
+        }
+
 
       }
 
@@ -105,7 +118,7 @@ export default NBScrollPanel.extend({
   updateTrigger: false,
   renderedComponentsDidChange: on('init', observer('items', 'items.[]', 'height', 'width', 'updateTrigger', function () {
 
-    once(this, 'processRenderedComponentsChange');
+    once(this, this.processRenderedComponentsChange);
   })),
 
   willDestroyElement() {
@@ -113,7 +126,6 @@ export default NBScrollPanel.extend({
   },
 
   processRenderedComponentsChange() {
-
       let height = this.get('height');
       let itemCount = this.get('items') ? this.get('items').length : 0;
       let itemHeight = this.get('itemHeight');

@@ -11,7 +11,7 @@ export default Component.extend({
     tabindex:-1,
     hover:false,
     focused:false,
-    icon: "",
+    icon: ["",""],
     actions: {
         tap(){
             this.parentView.send('remove');
@@ -26,7 +26,7 @@ export default Component.extend({
 
     },
     didInsertElement(){
-        let self = this;
+
         this._down = function ( event ) {
             event.preventDefault();
           event.stopPropagation();

@@ -1,9 +1,9 @@
-
-<div class="inner inkMe {{elevation}} " >
-    <div class="inner-wrap" >
-        <div class='ink' ></div>
-    <span class="button-text" >{{text}}</span>
-    <span class="button-icon {{icon}}" ></span>
-
+<div class="inner inkMe {{elevation}} ">
+    <div class="inner-wrap">
+        <div class='ink'></div>
+        <span class="button-text">{{text}}</span>
+        {{#if hasIcon }}
+            {{svg-icon class="button-icon" icon=icon}}
+        {{/if}}
     </div>
 </div>

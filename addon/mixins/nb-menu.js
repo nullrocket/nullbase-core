@@ -13,7 +13,7 @@ export default Mixin.create(SpreadMixin, {
   focusTrap: null,
   init: function () {
     this._super(...arguments);
-    this.get('parentView.menus').pushObject(this);
+    this.get('parentView.menuInstances').pushObject(this);
     this.set('parentComponent', this.get('parentView'));
   },
 

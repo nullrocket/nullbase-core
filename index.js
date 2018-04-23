@@ -99,6 +99,10 @@ module.exports = {
         var p = path.join(__dirname, "addon/svg");
         var dataURIFileContent = '';
         var externalSVGFileContent = '';
+        let svgMapContent = '';
+        let svgMapSymbolAttributes  = 'version="1.1" baseProfile="full" width="24" height="24" viewBox="0 0 24.00 24.00" enable-background="new 0 0 24.00 24.00" xml:space="preserve"';
+        let svgMapStart = '<?xml version="1.0" encoding="utf-8"?> <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"> <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">';
+        let svgMapEnd = "\n</svg>";
         var includeIcon = function ( icons, name ) {
           return !!_.find(icons, function ( icon ) {
             return name === icon.name;
@@ -129,29 +133,36 @@ module.exports = {
             return fse.statSync(file).isFile() && path.extname(file) === '.svg' && includeIcon(icons, path.basename(file, '.svg'));
           }).forEach(function ( file ) {
             var colors = getColors(icons, path.basename(file, '.svg'));
+            let svgSymbol = fse.readFileSync(file, "utf8");
+            svgSymbol = "<symbol "+ svgMapSymbolAttributes+" id=\""+path.basename(file,'.svg')+"\">\n"+svgSymbol.match(/<path\b([\s\S]*?)\/>/g).join("").replace(/(fill)[\s]*=[\s]*"[^"]+"|(fill)[\s]*=[\s]*\x27[^\']+\x27 | (fill)[\s]*=[\s]*[^\'\s]+/, ' fill="currentColor" ')+"\n</symbol>\n";
+            svgMapContent += svgSymbol;
             _.each(colors, function ( color ) {
               var temp = fse.readFileSync(file, "utf8");
 
              temp = temp.replace(/(fill)[\s]*=[\s]*"[^"]+"|(fill)[\s]*=[\s]*\x27[^\']+\x27 | (fill)[\s]*=[\s]*[^\'\s]+/, ' fill="' + color.color + '" ')
-              externalSVGFileContent += "." + path.basename(file, '.svg') + "-" + color.name + " { \n background-image: url('../nullbase-icons/" + path.basename(file, '.svg') + "-" + color.name + ".svg');\nbackground-repeat: no-repeat;\n background-size:contain;\n }\n\n";
-
-        //           temp = temp.replace(/(fill)[\s]*=[\s]*"[^"]+"|(fill)[\s]*=[\s]*\x27[^\']+\x27 | (fill)[\s]*=[\s]*[^\'\s]+/, ' fill="currentColor" ')
-         //          externalSVGFileContent += "." + path.basename(file, '.svg') + "-" + color.name + " > svg { \n background-image: url('../nullbase-icons/" + path.basename(file, '.svg') + "-" + color.name + ".svg');\nbackground-repeat: no-repeat;\n background-size:contain;\n color:"+color.color+";\n}\n\n";
 
 
 
-              dataURIFileContent += "." + path.basename(file, '.svg') + "-" + color.name + " { \n background-image: url('data:image/svg+xml;charset=US-ASCII," + encodeURIComponent(temp) + "');\nbackground-repeat: no-repeat;\n background-size:contain;\n }\n\n";
+
+
+
+
+             // dataURIFileContent += "." + path.basename(file, '.svg') + "-" + color.name + " { \n background-image: url('data:image/svg+xml;charset=US-ASCII," + encodeURIComponent(temp) + "');\nbackground-repeat: no-repeat;\n background-size:contain;\n }\n\n";
 
               fse.ensureDirSync(self.publicDirectory);
               fse.removeSync(self.publicDirectory + '/' + path.basename(file, '.svg') + "-" + color.name + ".svg");
               fse.writeFileSync(self.publicDirectory + '/' + path.basename(file, '.svg') + "-" + color.name + ".svg", temp);
-            });
-          });
 
-          fse.removeSync(path.dirname(self.styleDirectory) + '/svg.icons.less');
-          fse.writeFileSync(self.styleDirectory + '/svg.icons.less', dataURIFileContent);
-          fse.removeSync(path.dirname(self.styleDirectory) + '/svg.extern.icons.less');
-          fse.writeFileSync(self.styleDirectory + '/svg.extern.icons.less', externalSVGFileContent);
+            });
+
+
+
+          });
+          fse.removeSync(self.publicDirectory + '/svg-map.svg');
+          fse.writeFileSync(self.publicDirectory + '/svg-map.svg', svgMapStart+svgMapContent+svgMapEnd);
+
+
+
         });
 
       }

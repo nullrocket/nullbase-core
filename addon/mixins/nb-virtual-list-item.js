@@ -13,7 +13,7 @@ try {
   this.get('parentView.childComponentsX').pushObject(this);
 }
 catch(e){
-  console.log(e)
+
 }
 /*
     this.get('intersection').observe(this.get('element'));

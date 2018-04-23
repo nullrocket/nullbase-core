@@ -7,14 +7,14 @@ import createFocusTrap from "nullbase-core/utils/focus-trap";
 export default Mixin.create(SpreadMixin, {
   classNames: [ 'nb-modal-dialog-backdrop' ],
   classNameBindings: [ 'size' ],
-  attributeBindings:['tabindex'],
-  tabindex:-1,
+  attributeBindings: [ 'tabindex' ],
+  tabindex: -1,
   size: 'size-1',
-  focusTrap:null,
-  onRemove(){
+  focusTrap: null,
+  onRemove() {
 
   },
-  onShow(){
+  onShow() {
 
   },
   init: function () {
@@ -24,8 +24,7 @@ export default Mixin.create(SpreadMixin, {
   },
 
   willDestroy: function () {
-    if(this.get('focusTrap'))
-    {
+    if ( this.get('focusTrap') ) {
       this.get('focusTrap').deactivate();
     }
 
@@ -35,7 +34,7 @@ export default Mixin.create(SpreadMixin, {
   parentComponent: null,
 
   defaultAction: '',
-  escAction:'',
+  escAction: '',
   keyPress: function ( e ) {
     if ( this.get('defaultAction') ) {
       var key = e.which || e.keyCode;
@@ -62,13 +61,21 @@ export default Mixin.create(SpreadMixin, {
   actions: {
     remove: function () {
 
-    this.onRemove();
-      this.$().removeClass('show');
-      this.$('.nb-modal-dialog').removeClass('show');
+      this.onRemove();
+      if ( this.get('element') ) {
+        this.get('element').classList.remove('show');
+        let dialogElement = this.get('element').getElementsByClassName('nb-modal-dialog')[ 0 ];
+        if ( dialogElement ) {
+          dialogElement.classList.remove('show');
+        }
+
+      }
       this.get('focusTrap').deactivate();
       var self = this;
       setTimeout(function () {
-        self.get('parentComponent').send('remove', self)
+        if ( self.get('parentComponent') ) {
+          self.get('parentComponent').send('remove', self)
+        }
       }, 175);
 
     },
@@ -77,8 +84,11 @@ export default Mixin.create(SpreadMixin, {
 
       this.$().addClass('show');
       this.$('.nb-modal-dialog').addClass('show');
-      var focusTrap = createFocusTrap(this.$('.nb-modal-dialog').get(0),{initialFocus:'.nb-modal-dialog',escapeDeactivates:false});
-      this.set('focusTrap',focusTrap);
+      var focusTrap = createFocusTrap(this.$('.nb-modal-dialog').get(0), {
+        initialFocus: '.nb-modal-dialog',
+        escapeDeactivates: false
+      });
+      this.set('focusTrap', focusTrap);
       focusTrap.activate();
     }
   }

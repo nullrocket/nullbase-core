@@ -44,7 +44,7 @@ export default Mixin.create(ThemedComponent, {
       e.stopPropagation();
       if ( !self.get('disabled') ) {
         self.set('pressed', true);
-        this.beforeKeyDown(event);
+        this.beforeKeyDown(e);
         document.addEventListener('keyup', self._bodyKeyUp, true);
         self.send("down", e);
       }
@@ -57,7 +57,7 @@ export default Mixin.create(ThemedComponent, {
       let self = this;
       if ( !self.get('disabled') ) {
         self.set('pressed', false);
-        self.beforeKeyUp(event);
+        self.beforeKeyUp(e);
         self.send("up", e);
       }
     }

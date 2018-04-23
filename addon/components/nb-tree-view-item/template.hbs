@@ -1,6 +1,6 @@
 <div class="item {{_uniqueClassName}}">
-    <div class="indicator-icon icon {{expansionIndicatorIcon}} {{_uniqueClassName}}"></div>
-    <div class="icon {{icon}}"></div>
+  {{svg-icon class=(concat "indicator-icon icon " _uniqueClassName) icon=expansionIndicatorIcon title=expandTitle}}
+    {{svg-icon class="icon" icon=icon}}
 
     <div class="item-label  ">{{name}}</div>
 

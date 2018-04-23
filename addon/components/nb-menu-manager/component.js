@@ -36,7 +36,7 @@ export default Component.extend(InboundAction, {
     this._super(...arguments);
     this.set('_uniqueClassName', uniqueClass());
     this.set('menus',A([]));
-   // this.set('menuInstances',A([]));
+    this.set('menuInstances',A([]));
   },
   menus:'',
   //menuInstances: '',
@@ -56,7 +56,9 @@ export default Component.extend(InboundAction, {
 
           let element = aMenu.get('tetherObject').element;
           let menuManager = document.querySelectorAll('.nb-menu-backdrop')[ 0 ];
-          menuManager.appendChild(element);
+          if(menuManager) {
+            menuManager.appendChild(element);
+          }
           aMenu.get('tetherObject').destroy();
 
           this.get('menus').removeObject(menuToRemove);
@@ -85,7 +87,7 @@ export default Component.extend(InboundAction, {
       let menu = null;
 
       scheduleOnce('afterRender', function () {
-        menu = find(self.get('menus'), function ( menu ) {
+        menu = find(self.get('menuInstances'), function ( menu ) {
 
           return menu.get('menuID') === uniqId;
         });

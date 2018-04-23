@@ -13,7 +13,7 @@ export default Component.extend({
   tabindex: 0,
   hover: false,
   focused: false,
-  icon: "",
+  icon: ["",""],
   useNativeClick:false,
   actions: {
     tap(){

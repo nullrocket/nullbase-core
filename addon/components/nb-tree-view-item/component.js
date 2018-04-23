@@ -20,7 +20,8 @@ export default Component.extend(ThemedComponent, TreeViewItemMixin, {
   openStateId:"",
   classNameBindings: [ 'open:open:closed', 'selected', 'hover' ],
   hover: false,
-  expansionIndicatorIcon: computed('openIcon', 'closedIcon', 'open', 'treeViewItems', 'treeViewItems.[]', 'treeViewItems.length', function () {
+
+  expansionIndicatorIcon: computed('openIcon','openIcon.[]','closedIcon.[]', 'closedIcon', 'open', 'treeViewItems', 'treeViewItems.[]', 'treeViewItems.length', function () {
     if ( this.get('treeViewItems.length') ) {
       if ( this.get('open') ) {
         return this.get('openIcon')
@@ -30,12 +31,12 @@ export default Component.extend(ThemedComponent, TreeViewItemMixin, {
       }
     }
     else {
-      return 'no-indicator';
+      return ["",""];
     }
   }),
-  openIcon: 'menu-right-grey',
-  closedIcon: 'menu-right-grey',
-  icon: 'checkbox-blank-grey',
+  openIcon: ["menu-right","grey600"],
+  closedIcon: ['menu-right','grey600'],
+  icon: ['checkbox-blank','grey600'],
   expandtOnTap:true,
   _tracking: false,
   init(){

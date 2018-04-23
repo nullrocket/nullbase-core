@@ -24,7 +24,9 @@ export default Component.extend(ButtonLike, {
         return '';
       }
     }),
-
+  hasIcon:computed('type',function(){
+    return this.get("type") === "raised-icon" || this.get('type') === "flat-icon";
+  }),
   size: '',
   attributeBindings: [ 'touchAction:touch-action', 'disabled:disabled', "title:title" ],
   touchAction: 'none',

@@ -20,12 +20,12 @@
         </div>
         <div class="buttons">
             {{#if isMasked }}
-                {{nb-button title=passwordToggleTitle type="flat-icon" icon=(if passwordVisible (build-icon "eye"  "grey600") (build-icon  "eye-off" "grey600")) on-tap=(action "togglePasswordVisible")   size="condensed"  }}
+                {{nb-button title=passwordToggleTitle type="flat-icon" icon=(if passwordVisible (build-svg-icon "eye"  "grey-600") (build-svg-icon  "eye-off" "grey-600")) on-tap=(action "togglePasswordVisible")   size="condensed"  }}
 
             {{/if}}
             {{yield}}
             {{#if copyButton }}
-                {{nb-button title=copyFieldTitle type="flat-icon" icon= (build-icon "content-copy" "grey600") on-tap=(action "copyField")  size="condensed" useNativeClick=true  }}
+                {{nb-button title=copyFieldTitle type="flat-icon" icon= (build-svg-icon "content-copy" "grey-600") on-tap=(action "copyField")  size="condensed" useNativeClick=true  }}
 
             {{/if}}
         </div>

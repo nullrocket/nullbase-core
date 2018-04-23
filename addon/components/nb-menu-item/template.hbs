@@ -1,5 +1,5 @@
-<div class="icon {{if disabled icon (if (or hover focused) hoverIcon icon) }}"></div>
 
+{{svg-icon class="icon" icon=(if disabled icon (if (or hover focused) hoverIcon icon) )}}
 <span>{{text}}</span>
 {{yield}}
 

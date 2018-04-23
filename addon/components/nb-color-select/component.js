@@ -20,7 +20,7 @@ function topZIndex() {
 }
 export default Component.extend(ThemedComponent, {
   layout,
-  menuIcon: "menu-down-grey",
+  menuIcon: ["menu-down","grey"],
   gestures: service(),
   classNames: [ 'nb-color-select' ],
   parentFocusTrap: null,

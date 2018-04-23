@@ -1,5 +1,5 @@
 import Component from "@ember/component";
-import { computed } from "@ember/object"
+import { computed,observer } from "@ember/object"
 import layout from './template';
 import { next } from "@ember/runloop"
 
@@ -18,7 +18,7 @@ export default Component.extend(CheckBoxBase, {
 
   useNativeClick: false,
   ink: true,
-  icon: computed('checked', function () {
+  _icon: observer('checked', function () {
     var self = this;
     if ( this.get('checked') ) {
 
@@ -36,10 +36,10 @@ export default Component.extend(CheckBoxBase, {
     }
 
   }),
-  checkedIcon: "checkbox-marked-grey600",
-  uncheckedIcon: "checkbox-blank-outline-grey600",
-  maybeCheckedIcon: "minus-box-grey600",
-  _currentIcon: computed('uncheckedIcon', 'checkedIcon', 'maybeCheckedIcon', 'checked', function () {
+  checkedIcon: ['checkbox-marked','grey-600'],
+  uncheckedIcon: ['checkbox-blank-outline','grey-600'],
+  maybeCheckedIcon: ['minus-box','grey-600'],
+  _currentIcon: computed('uncheckedIcon','uncheckedIcon.[]', 'checkedIcon','checkedIcon.[]', 'maybeCheckedIcon','maybeCheckedIcon.[]', 'checked', function () {
     return this.get('checked') ? this.get('checkedIcon') : this.get('checked') != null ? this.get('uncheckedIcon') : this.get('maybeCheckedIcon');
   }),
 
