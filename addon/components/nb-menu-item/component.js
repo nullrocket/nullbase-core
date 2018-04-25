@@ -13,6 +13,7 @@ export default Component.extend({
   tabindex: 0,
   hover: false,
   focused: false,
+  hoverIcon:["",""],
   icon: ["",""],
   useNativeClick:false,
   actions: {

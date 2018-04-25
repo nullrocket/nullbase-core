@@ -9,7 +9,7 @@ export default Component.extend( {
   classNames: ['icon','svg-icon'],
   classNameBindings:['_color','size'],
   _icon:computed('icon.[]','icon',function(){
-    return this.get('icon')[0];
+    return '../nullbase-icons/svg-map.svg#'+this.get('icon')[0];
   }),
   _color:computed('icon.[]','icon',function(){
       return this.get('icon')[1];
