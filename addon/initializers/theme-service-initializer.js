@@ -12,6 +12,14 @@ export function initialize( application ) {
     themes: computed(getThemes),
     init(){
       this._super(...arguments);
+      var ajax = new XMLHttpRequest();
+      ajax.open("GET", "nullbase-icons/svg-map.svg", true);
+      ajax.send();
+      ajax.onload = function(e) {
+        var div = document.createElement("div");
+        div.innerHTML = ajax.responseText;
+        document.body.insertBefore(div, document.body.childNodes[0]);
+      }
 
     },
     initThemesForComponent( component ){

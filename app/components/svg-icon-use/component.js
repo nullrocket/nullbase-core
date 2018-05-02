@@ -1,0 +1,1 @@
+export { default } from 'nullbase-core/components/svg-icon-use/component';
