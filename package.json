@@ -1,6 +1,6 @@
 {
   "name": "nullbase-core",
-  "version": "0.0.58",
+  "version": "0.0.66",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
     "ember-addon"

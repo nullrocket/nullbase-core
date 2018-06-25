@@ -1,8 +1,5 @@
 
-
 nb-textarea {
-
-
 
   &.monospace {
     input {
@@ -10,10 +7,9 @@ nb-textarea {
     }
   }
 
-
   textarea {
     height: 100%;
-    min-height:150px;
+    min-height: 150px;
     resize: none;
 
     padding: 8px;
@@ -22,8 +18,6 @@ nb-textarea {
     box-sizing: border-box;
     color: #222;
   }
-
-
 
   /* LABEL ======================================= */
   label {
@@ -37,7 +31,7 @@ nb-textarea {
     transition: 0.2s ease all;
     -moz-transition: 0.2s ease all;
     -webkit-transition: 0.2s ease all;
-    &.error-text,&.error {
+    &.error-text, &.error {
       color: red !important;
       font-size: 11px;
       font-weight: normal;
@@ -50,27 +44,21 @@ nb-textarea {
     }
   }
 
-
-
-
-
-
 }
-
 
 nb-textarea {
   background: transparent;
   position: relative;
-  min-height:60px;
-  display:flex;
-  box-sizing:border-box;
+  min-height: 60px;
+  display: flex;
+  box-sizing: border-box;
 
-  padding-bottom:16px;
-  margin-top:4px;
-  .textarea-wrapper{
-    position:relative;
+  padding-bottom: 16px;
+  margin-top: 4px;
+  .textarea-wrapper {
+    position: relative;
   }
-  .mask{
+  .mask {
     position: absolute;
     left: 0;
     bottom: 0;
@@ -92,8 +80,8 @@ nb-textarea {
     display: inline-block;
     color: #888;
     pointer-events: none;
-    will-change:opacity;
-    font-size:12px;
+    will-change: opacity;
+    font-size: 12px;
   }
   .error {
     position: relative;
@@ -110,13 +98,13 @@ nb-textarea {
     position: absolute;
     line-height: 16px;
     /* bottom: 6px; */
-    transition: transform 450ms cubic-bezier(.23,1,.32,1) 0s;
+    transition: transform 450ms cubic-bezier(.23, 1, .32, 1) 0s;
     z-index: 1;
 
     transform-origin: left top 0;
     color: #222;
-    will-change: transition,opacity;
-    transform:scale(0.85) translate(0px, -32px);
+    will-change: transition, opacity;
+    transform: scale(0.85) translate(0px, -32px);
     color: #222;
   }
 
@@ -126,43 +114,41 @@ nb-textarea {
     }
     &.not-focused {
       .hint-text {
-        opacity:0;
+        opacity: 0;
         transition: opacity 100ms ease-out;
       }
     }
   }
   &.no-label {
     .label {
-      opacity:0;
+      opacity: 0;
     }
   }
   &.focused {
     .label {
 
     }
-  .mask {
-    display:none;
-  }
+
     textarea {
-   /*   border:1px solid #222; */
+      /*   border:1px solid #222; */
     }
   }
   &.has-text {
     .hint-text {
-      opacity:0;
+      opacity: 0;
       transition: opacity 100ms ease-out;
     }
     .label {
-   /*   transform:scale(0.85) translate(0px, -32px);*/
+      /*   transform:scale(0.85) translate(0px, -32px);*/
     }
   }
   &.no-text {
     .hint-text {
-      opacity:1;
+      opacity: 1;
       transition: opacity 100ms ease-in;
     }
   }
-  .icon{
+  .icon {
     flex-basis: 36px;
     background-position: left center;
     background-size: 24px 24px;
@@ -172,27 +158,26 @@ nb-textarea {
     flex-grow: 0;
   }
   .input-wrapper {
-    display:flex;
-    flex-grow:1;
-    flex-direction:column;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
 
     .input-buttons {
 
       &.text-area {
-        max-height:none;
+        max-height: none;
       }
-      box-sizing:border-box;
+      box-sizing: border-box;
       .input {
-        flex-grow:1;
-        padding-right:4px;
-
+        flex-grow: 1;
+        padding-right: 4px;
 
       }
 
-      display:flex;
-      flex-direction:row;
-      position:relative;
-      right:0px;
+      display: flex;
+      flex-direction: row;
+      position: relative;
+      right: 0px;
     }
   }
   .buttons {
@@ -203,9 +188,9 @@ nb-textarea {
     justify-content: flex-end;
   }
   &.has-error {
-  textarea {
-    border:1px solid red;
-  }
+    textarea {
+      border: 1px solid red;
+    }
   }
 
 }

@@ -15,11 +15,11 @@
             <div class="hint-text">{{hint}}</div>
             <div class="label">{{label}}</div>
             <div class="textarea-wrapper">
-                {{textarea type=type value=value  name=inputId class=inputClasses rows=rows spellcheck=false autocomplete="off" readonly=readonly}}
+                {{textarea type=type value=value  name=inputId class=inputClasses rows=rows spellcheck=false autocomplete="off" disabled=disabled readonly=readonly}}
                 {{#if (and (eq isMasked true) (eq passwordVisible false)) }}
                 <div class="mask">
                     <div>HIDDEN</div>
-                    <div>Click or focus to show</div>
+
                 </div>
                 {{/if}}
             </div>

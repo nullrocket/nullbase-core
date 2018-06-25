@@ -62,6 +62,8 @@ export default Component.extend(ThemedComponent, {
   monospace: false,
   classNames: [ 'selectable','nb-textarea' ],
   classNameBindings: [ 'hasIcon:icon', 'monospace:monospace', 'hasText:has-text:no-text', 'focused:focused:not-focused', 'hasLabel:has-label:no-label', 'hasError:has-error:no-error', 'type' ],
+
+  disabled:computed.not('passwordVisible'),
   hasText: bool('value'),
   hasLabel: bool('label'),
   description: "",
